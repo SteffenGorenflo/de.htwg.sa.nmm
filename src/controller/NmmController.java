@@ -23,17 +23,17 @@ public final class NmmController extends Observable {
 		notifyObservers();
 	}
 	
-	private String toString(int grid, int index) {
-		return "(" + grid + ", " + index + ")" + "[COLOR: " + model.getToken(grid, index).color() + "]";
+	private String tostr(int grid, int index) {
+		return "(" + grid + ", " + index + ")";		
 	}
 	
 	public boolean pickToken(int grid, int index) {
 		boolean pick;
 		if (model.pickToken(grid, index)) {
-			status = "picked token from " + toString(grid, index);
+			status = "picked token from " + tostr(grid, index);
 			pick = true;
 		} else {
-			status = "couldn't pick token from " + toString(grid, index);
+			status = "couldn't pick token from " + tostr(grid, index);
 			pick = false;
 		}
 		notifyObservers();
@@ -43,10 +43,10 @@ public final class NmmController extends Observable {
 	public boolean setToken(int grid, int index) {
 		boolean set;
 		if (model.setToken(grid, index)) {
-			status = "set token to " + toString(grid, index);
+			status = "set token to " + tostr(grid, index);
 			set = true;
 		} else {
-			status = "couldn't set token to " + toString(grid, index);
+			status = "couldn't set token to " + tostr(grid, index);
 			set = false;
 		}
 		notifyObservers();
@@ -57,13 +57,13 @@ public final class NmmController extends Observable {
 		boolean move;
 		if (model.moveToken(sourceGrid, sourceIndex, destGrid, destIndex)) {
 			if (model.mill(destGrid, destIndex)) {
-				status = "moved token to " + toString(destGrid, destIndex);
+				status = "moved token to " + tostr(destGrid, destIndex);
 				notifyObservers();
 				status = "mill!";				
 			}			
 			move = true;
 		} else {
-			status = "couldn't move token to " + toString(destGrid, destIndex);
+			status = "couldn't move token to " + tostr(destGrid, destIndex);
 			move = false;
 		}		
 		notifyObservers();				

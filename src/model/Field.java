@@ -27,8 +27,12 @@ public final class Field {
 		return this.token != null;
 	}
 	
-	public void setToken(Token token) {
+	public boolean setToken(Token token) {
+		if (this.token != null) {
+			return false;			
+		}
 		this.token = token;
+		return true;
 	}
 	
 	public boolean neighbour(Field other) {
@@ -69,5 +73,5 @@ public final class Field {
 			return false;
 		Field other = (Field) obj;
 		return grid == other.grid && index == other.index;
-	}
+	}	
 }
