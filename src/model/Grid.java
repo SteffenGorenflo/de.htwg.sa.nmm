@@ -1,15 +1,11 @@
 package model;
 
 
-/**
- * Grid represents the gamefield.
- */
 public class Grid {	
 	
 	private final int GRID = 3;
 	private final int INDEX = 8;
 	private final int FLYLIMIT = 3;
-	private final int DEATH_LIMIT = 2;
 	private Field[][] gamefield = null;
 	private Player playerOne, playerTwo, currentPlayer;
 	
@@ -40,10 +36,22 @@ public class Grid {
 	}
 	
 	public boolean setToken(int grid, int index) {
-		if (gamefield[grid][index].hasToken())
+		
+		if (!currentPlayer.isStatus(Player.STATUS_SET)) {
 			return false;
+		}
+		
+		Field field = gamefield[grid][index];
+		if (field.hasToken())
+			return false;
+		
 		Token token = currentPlayer.take();
-		gamefield[grid][index].setToken(token);
+		field.setToken(token);		
+		if (mill(grid, index)) {
+			currentPlayer.setStatus(Player.STATUS_PICK);
+		} else {
+			nextPlayer();
+		}
 		return true;
 	}		
 	
@@ -51,32 +59,45 @@ public class Grid {
 		int countToken = 0;
 		for (int grid = 0; grid < GRID; grid++) {
 			for (int index = 0; index < INDEX; index++) {
-				Token token = gamefield[grid][index].getToken();
-				if (token != null && player.myToken(token))
-					countToken++;
+				Field field = gamefield[grid][index];				
+				if (field.hasToken() && player.myToken(field.getToken())) {					
+					countToken++;					
+				}					
 			}
 		}		
 		return countToken;
 	}
 
 	public boolean pickToken(int grid, int index) {
-		Token token = gamefield[grid][index].getToken();
-		if (token == null)
+		
+		if (!currentPlayer.isStatus(Player.STATUS_PICK))
 			return false;
-		gamefield[grid][index].setToken(null);
-		// lost game
-		return (countToken(otherPlayer()) == DEATH_LIMIT) ? true : false;
+		
+		Field field = gamefield[grid][index];		
+		if (!field.hasToken())		
+			return false;		
+		if (currentPlayer().myToken(field.getToken()))
+			return false;		
+		field.setToken(null);		
+		nextPlayer();
+		return true;
 	}
+	
 			
 	public boolean moveToken(int sourceGrid, int sourceIndex, int destGrid, int destIndex) {
+		
+		if (!currentPlayer.isStatus(Player.STATUS_MOVE))
+			return false;
+		
 		Field source = gamefield[sourceGrid][sourceIndex];
 		Field dest   = gamefield[destGrid][destIndex];
 		if (!source.hasToken() || dest.hasToken()) {
 			return false;
 		}
+		
 		if (countToken(currentPlayer) > FLYLIMIT && !source.neighbour(dest)) {
 			return false;
-		}		
+		}
 		Token token = source.getToken();
 		dest.setToken(token);
 		source.setToken(null);
@@ -121,17 +142,24 @@ public class Grid {
 	private boolean checkMid(int grid, int index) {
 		return checkNeighbours(1, index, true) || checkNeighbours(grid, index, false);
 	}
-
+	
+	public void setCurrentPlayer(final Player player) {
+		this.currentPlayer = player;
+	}
+	
 	public Player currentPlayer() {			
 		return currentPlayer;
 	}
 	
 	public Player otherPlayer() {
-		return (currentPlayer == playerOne) ? playerTwo : playerOne;			
+		if (currentPlayer == playerOne){
+			return playerTwo;
+		}
+		return playerOne;
 	}
 
 	private void nextPlayer() {
-		currentPlayer = (currentPlayer == playerOne) ? playerTwo : playerOne;			
+		currentPlayer = otherPlayer();			
 		if (currentPlayer.hasToken()) {
 			currentPlayer.setStatus(Player.STATUS_SET);
 		} else {
@@ -147,7 +175,10 @@ public class Grid {
 		return INDEX;
 	}
 	
-	public boolean valid(int grid, int index) {		
-		return (grid < GRID && index < INDEX) ? true : false;		
+	public boolean valid(int grid, int index) {	
+		if (grid < GRID && index < INDEX) {
+			return true;
+		}
+		return false;			
 	}
 }

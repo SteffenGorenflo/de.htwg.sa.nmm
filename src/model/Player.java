@@ -29,7 +29,11 @@ public final class Player {
 	}
 	
 	public String getStatus() {
-		return status;
+		return this.status;
+	}
+	
+	public boolean isStatus(final String status) {
+		return this.status.equals(status);
 	}
 	
 	public void setStatus(final String status) {		
@@ -62,7 +66,9 @@ public final class Player {
 	}
 	
 	public boolean myToken(Token token) {
-		assert token != null;		
+		if (token == null) {
+			return false;
+		}
 		return color.equals(token.color());
 	}
 	
