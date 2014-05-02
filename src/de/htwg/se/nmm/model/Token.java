@@ -20,8 +20,9 @@ public final class Token {
 	
 	@Override	
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Token))
+		if (!(obj instanceof Token)) {
 			return false;
+		}
 		Token other = (Token)obj;
 		return color.equals(other.color);
 	}		

@@ -10,6 +10,7 @@ public final class TextUserInterface implements IObserver {
 	
 	public TextUserInterface(NmmController controller) {
 		this.controller = controller;
+		this.controller.addObserver(this);
 	}
 	
 	@Override
@@ -24,31 +25,47 @@ public final class TextUserInterface implements IObserver {
 	}
 	
 	public void handleUserInput(final String input) {
-		
+				
 		if (input.equals("q")) {
 			System.out.println("exit game");
 			System.exit(0);
+			
 		} else if (input.equals("r")) {
 			controller.restart();
 			System.out.println("restart game");
-		}				
-		else if (input.matches("[move\\d\\dto\\d\\d]")) {
-			int sourceGrid = Integer.valueOf(input.charAt(4));
-			int sourceIndex = Integer.valueOf(input.charAt(5));
-			int destGrid = Integer.valueOf(input.charAt(9));
-			int destIndex = Integer.valueOf(input.charAt(10));	
+			
+		} else if (input.matches("move\\d\\dto\\d\\d")) {
+			int sourceGrid = Character.getNumericValue(input.charAt(4));
+			int sourceIndex = Character.getNumericValue(input.charAt(5));
+			int destGrid = Character.getNumericValue(input.charAt(8));
+			int destIndex = Character.getNumericValue(input.charAt(9));
 			
 			if (controller.valid(sourceGrid, sourceIndex) && controller.valid(destGrid, destIndex)) {
 				controller.moveToken(sourceGrid, sourceIndex, destGrid, destIndex);
 			} else {
 				System.out.println("invalid index");
-			}			
-		}
-		else if (input.matches("[pick\\d\\d]")) {
-			int grid = Integer.valueOf(input.charAt(4));
-			int index = Integer.valueOf(input.charAt(5));
+			}
 			
-			controller.pickToken(grid, index);
-		}				
+		} else if (input.matches("pick\\d\\d")) {
+			int grid = Character.getNumericValue(input.charAt(4));
+			int index = Character.getNumericValue(input.charAt(5));
+			
+			if (controller.valid(grid, index)) {
+				controller.pickToken(grid, index);
+			} else {
+				System.out.println("invalid index");
+			}
+			
+			
+		} else if (input.matches("set\\d\\d")) {
+			int grid = Character.getNumericValue(input.charAt(3));
+			int index = Character.getNumericValue(input.charAt(4));
+			System.out.println("grid/index: " + grid + "/" + index); 
+			if (controller.valid(grid, index)) {					
+				controller.setToken(grid, index);
+			} else {
+				System.out.println("invalid index");
+			}
+		}
 	}
 }
