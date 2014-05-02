@@ -18,7 +18,6 @@
 # Directories #
 /build/
 /bin/
-target/
 
 .metadata
 bin/**
@@ -30,7 +29,6 @@ tmp/**/*
 *~.nib
 local.properties
 .classpath
-.settings/
 .loadpath
 
 ######################
