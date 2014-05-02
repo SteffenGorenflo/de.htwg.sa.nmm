@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import de.htwg.se.nmm.model.Gamefield;
 import de.htwg.se.nmm.model.Player;
-import de.htwg.se.nmm.model.Token;
 import de.htwg.se.nmm.model.Player.Status;
 
 public class TestNmmController {

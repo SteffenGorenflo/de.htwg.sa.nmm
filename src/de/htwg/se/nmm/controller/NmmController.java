@@ -57,7 +57,7 @@ public final class NmmController extends Observable {
 		action = new SetTokenAction(currentPlayer, field);
 		if (action.valid()) {
 			action.execute();	
-			if (gamefield.mill(field)) {
+			if (gamefield.mill(field)) { 
 				status = "mill!";
 				currentPlayer.setStatus(Status.PickToken);
 			} else {
