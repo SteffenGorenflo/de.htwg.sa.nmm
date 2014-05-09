@@ -39,4 +39,10 @@ public class TestToken {
 		assertFalse(token.equals(new Object()));		
 	}
 
+	@Test
+	public void testHashCode() {
+		Token t1 = new Token(Color.BLACK);
+		Token t2 = new Token(Color.BLACK);
+		assertTrue(t1.hashCode() == t2.hashCode());
+	}
 }

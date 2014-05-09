@@ -9,7 +9,7 @@ public class MoveTokenAction implements IAction {
 
 	private final Player player;
 	private final Field source, destination;
-	
+	 
 	public MoveTokenAction(Player player, Field source, Field destination) {
 		this.player = player;
 		this.source = source;

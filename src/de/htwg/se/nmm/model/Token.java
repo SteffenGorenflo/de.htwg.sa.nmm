@@ -26,4 +26,10 @@ public final class Token {
 		Token other = (Token)obj;
 		return color.equals(other.color);
 	}		
+	
+	@Override
+	public int hashCode() {
+		return color.hashCode();
+	}	
+	
 }

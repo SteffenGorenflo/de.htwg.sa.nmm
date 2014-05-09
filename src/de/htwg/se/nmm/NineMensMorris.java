@@ -32,5 +32,6 @@ public final class NineMensMorris {
 				tui.handleUserInput(input);
 			}
 		}
+		IN.close();
 	}
 }

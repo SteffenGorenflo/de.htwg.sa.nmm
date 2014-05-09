@@ -202,8 +202,16 @@ public class TestField {
 
 	@Test
 	public void testToString() {
-		String str = "(0, 0)";
-		assertTrue(field.toString().equals(str));
+		// no assert needed, we don't care
+		// how the string looks like!
+		field.toString();		
+	}
+	
+	@Test
+	public void testHasCode() {
+		Field f1 = new Field(0, 0);
+		Field f2 = new Field(0, 0);
+		assertTrue(f1.hashCode() == f2.hashCode());
 	}
 
 }

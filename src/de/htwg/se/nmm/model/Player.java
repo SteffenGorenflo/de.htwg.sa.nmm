@@ -69,6 +69,12 @@ public final class Player {
 		if (!(obj instanceof Player))
 			return false;
 		Player other = (Player)obj;
-		return name.equals(other.name) && color.equals(other.color);
+		return color.equals(other.color);
 	}	
+	
+	@Override
+	public int hashCode() {
+		return color.hashCode();
+	}
+		
 }

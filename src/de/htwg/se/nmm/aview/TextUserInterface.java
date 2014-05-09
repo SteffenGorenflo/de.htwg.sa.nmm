@@ -12,7 +12,7 @@ public final class TextUserInterface implements IObserver {
 		this.controller = controller;
 		this.controller.addObserver(this);
 	}
-	
+	 
 	@Override
 	public void update(Event e) {		
 		String status = controller.getStatus();

@@ -117,24 +117,23 @@ public class TestPlayer {
 	@Test
 	public void testEqualsObject() {
 		
-		// same name and same color ==> equals true
+		// same color
 		Player same = new Player("player's name", Color.BLACK);
-		assertTrue(player.equals(same));
-		
-		// other name, other color
-		Player other = new Player("opponent", Color.WHITE);		
-		assertFalse(player.equals(other));
-		
-		// other name
-		other = new Player("opponent", Color.BLACK);
-		assertFalse(player.equals(other));
+		assertTrue(player.equals(same));	
 		
 		// other color
-		other = new Player("player's name", Color.WHITE);
+		Player other = new Player("player's name", Color.WHITE);
 		assertFalse(player.equals(other));
 		
 		// just allow to compare with other player
 		assertFalse(player.equals(new Object()));
+	}
+	
+	@Test
+	public void testHashCode() {
+		Player p1 = new Player("max", Color.BLACK);
+		Player p2 = new Player("moritz", Color.BLACK);
+		assertTrue(p1.hashCode() == p2.hashCode());
 	}
 
 }
