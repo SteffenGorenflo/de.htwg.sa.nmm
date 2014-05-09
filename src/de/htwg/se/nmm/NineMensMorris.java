@@ -23,15 +23,9 @@ public final class NineMensMorris {
 		NmmController controller = new NmmController(nmm, p1, p2);
 		TextUserInterface tui = new TextUserInterface(controller);
 		
-		while (in.hasNext()) {
-			final String input = in.next();
-			if ("q".equals(input)) {
-				System.out.println("game ended");
-				break;
-			} else {
-				tui.handleUserInput(input);
-			}
+		while (in.hasNext()) {			
+			tui.handleUserInput(in.next());			
 		}
 		in.close();
-	}
+	}		
 }

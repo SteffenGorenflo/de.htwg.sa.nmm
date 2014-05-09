@@ -3,8 +3,8 @@ package de.htwg.se.nmm.model;
 
 public final class Gamefield {	
 	
-	private static final int nrGrids = 3;
-	private static final int nrIndex = 8;	
+	private static final int GRIDS = 3;
+	private static final int INDEX = 8;	
 	private Field[][] gamefield = null;	
 	
 	public Gamefield() {			
@@ -12,9 +12,9 @@ public final class Gamefield {
 	}
 	
 	public void init() {
-		gamefield = new Field[nrGrids][nrIndex];
-		for (int grid = 0; grid < nrGrids; grid++) {
-			for (int index = 0; index < nrIndex; index++) {
+		gamefield = new Field[GRIDS][INDEX];
+		for (int grid = 0; grid < GRIDS; grid++) {
+			for (int index = 0; index < INDEX; index++) {
 				gamefield[grid][index] = new Field(grid, index);
 			}
 		}
@@ -26,8 +26,8 @@ public final class Gamefield {
 	
 	public int countToken(Player player) {
 		int countToken = 0;
-		for (int grid = 0; grid < nrGrids; grid++) {
-			for (int index = 0; index < nrIndex; index++) {
+		for (int grid = 0; grid < GRIDS; grid++) {
+			for (int index = 0; index < INDEX; index++) {
 				Field field = gamefield[grid][index];				
 				if (field.hasToken() && field.getToken().color().equals(player.color())) {			
 					countToken++;					
@@ -54,7 +54,7 @@ public final class Gamefield {
 			int curGrid = grid;
 			int curIndex = index;
 			if (!betweenGrid) {
-				curIndex = (index+i)%nrIndex;				 
+				curIndex = (index+i)%INDEX;				 
 			} else {
 				curGrid = grid +i;				
 			}	
@@ -69,7 +69,7 @@ public final class Gamefield {
 		
 	private boolean checkCorner(int grid, int index) {
 		final int indexOverflow = 7;
-		return checkNeighbours(grid, (index+indexOverflow)%nrIndex, false) || checkNeighbours(grid, index + 1, false);
+		return checkNeighbours(grid, (index+indexOverflow)%INDEX, false) || checkNeighbours(grid, index + 1, false);
 	}
 	
 	private boolean checkMid(int grid, int index) {
@@ -77,15 +77,15 @@ public final class Gamefield {
 	}
 			
 	public int grids() {
-		return nrGrids;
+		return GRIDS;
 	}
 	
 	public int index() {
-		return nrIndex;
+		return INDEX;
 	}
 	
 	public boolean valid(int grid, int index) {	
-		if (grid < nrGrids && index < nrIndex) {
+		if (grid < GRIDS && index < INDEX) {
 			return true;
 		}
 		return false;			

@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public final class Player {
 		
-	private final int nrStartToken = 9;
+	private static final int STARTTOKEN = 9;
 	private final String name;
 	private final Color color;	
 	private Status status;	
@@ -25,7 +25,7 @@ public final class Player {
 			
 	public void init() {
 		status = Status.SetToken;
-		token = nrStartToken;
+		token = STARTTOKEN;
 	}
 	
 	public Status getStatus() {

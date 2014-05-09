@@ -4,6 +4,7 @@ import de.htwg.se.nmm.controller.NmmController;
 import de.htwg.se.nmm.util.observer.Event;
 import de.htwg.se.nmm.util.observer.IObserver;
 
+
 public final class TextUserInterface implements IObserver {	
 	 
 	private NmmController controller;
@@ -16,9 +17,13 @@ public final class TextUserInterface implements IObserver {
 	@Override
 	public void update(Event e) {		
 		String status = controller.getStatus();
-		System.out.println("TUI received an updated from Controller: " + status);
+		print("TUI received an updated from Controller: " + status);
 		printGamefield();		
 	}	
+	
+	private void print(final String s) {
+		System.out.println(s);
+	}
 	
 	private void printGamefield() {
 		
@@ -26,9 +31,15 @@ public final class TextUserInterface implements IObserver {
 	
 	public void handleUserInput(final String input) {
 				
-		if (input.equals("r")) {
+		if (input.equals("q")) {
+			
+			print("exit");
+			System.exit(0);
+		}
+		else if (input.equals("r")) {
+			
 			controller.restart();
-			System.out.println("restart game");
+			print("restart game");
 			
 		} else if (input.matches("move\\d\\dto\\d\\d")) {
 			
@@ -58,7 +69,7 @@ public final class TextUserInterface implements IObserver {
 			if (controller.valid(grid, index)) {
 				controller.pickToken(grid, index);
 			} else {
-				System.out.println("invalid index");
+				print("invalid index");
 			}
 			
 			
@@ -69,11 +80,11 @@ public final class TextUserInterface implements IObserver {
 			int grid = Character.getNumericValue(input.charAt(strPosGrid));
 			int index = Character.getNumericValue(input.charAt(strPosIndex));
 			
-			System.out.println("grid/index: " + grid + "/" + index); 
+			print("grid/index: " + grid + "/" + index); 
 			if (controller.valid(grid, index)) {					
 				controller.setToken(grid, index);
 			} else {
-				System.out.println("invalid index");
+				print("invalid index");
 			}
 		}
 	}
