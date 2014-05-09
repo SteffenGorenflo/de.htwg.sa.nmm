@@ -5,7 +5,7 @@ import de.htwg.se.nmm.util.observer.Event;
 import de.htwg.se.nmm.util.observer.IObserver;
 
 public final class TextUserInterface implements IObserver {	
-	
+	 
 	private NmmController controller;
 	
 	public TextUserInterface(NmmController controller) {
@@ -17,28 +17,30 @@ public final class TextUserInterface implements IObserver {
 	public void update(Event e) {		
 		String status = controller.getStatus();
 		System.out.println("TUI received an updated from Controller: " + status);
-		print();		
+		printGamefield();		
 	}	
 	
-	private void print() {
+	private void printGamefield() {
 		
 	}
 	
 	public void handleUserInput(final String input) {
 				
-		if (input.equals("q")) {
-			System.out.println("exit game");
-			System.exit(0);
-			
-		} else if (input.equals("r")) {
+		if (input.equals("r")) {
 			controller.restart();
 			System.out.println("restart game");
 			
 		} else if (input.matches("move\\d\\dto\\d\\d")) {
-			int sourceGrid = Character.getNumericValue(input.charAt(4));
-			int sourceIndex = Character.getNumericValue(input.charAt(5));
-			int destGrid = Character.getNumericValue(input.charAt(8));
-			int destIndex = Character.getNumericValue(input.charAt(9));
+			
+			final int strPosSourceGrid = 4;
+			final int strPosSourceIndex = 5;			
+			int sourceGrid = Character.getNumericValue(input.charAt(strPosSourceIndex));
+			int sourceIndex = Character.getNumericValue(input.charAt(strPosSourceGrid));
+			
+			final int strPosDestGrid = 8;
+			final int strPosDestIndex = 9;
+			int destGrid = Character.getNumericValue(input.charAt(strPosDestGrid));
+			int destIndex = Character.getNumericValue(input.charAt(strPosDestIndex));
 			
 			if (controller.valid(sourceGrid, sourceIndex) && controller.valid(destGrid, destIndex)) {
 				controller.moveToken(sourceGrid, sourceIndex, destGrid, destIndex);
@@ -47,8 +49,11 @@ public final class TextUserInterface implements IObserver {
 			}
 			
 		} else if (input.matches("pick\\d\\d")) {
-			int grid = Character.getNumericValue(input.charAt(4));
-			int index = Character.getNumericValue(input.charAt(5));
+			
+			final int strPosGrid = 4;
+			final int strPosIndex = 5;
+			int grid = Character.getNumericValue(input.charAt(strPosGrid));
+			int index = Character.getNumericValue(input.charAt(strPosIndex));
 			
 			if (controller.valid(grid, index)) {
 				controller.pickToken(grid, index);
@@ -58,8 +63,12 @@ public final class TextUserInterface implements IObserver {
 			
 			
 		} else if (input.matches("set\\d\\d")) {
-			int grid = Character.getNumericValue(input.charAt(3));
-			int index = Character.getNumericValue(input.charAt(4));
+			
+			final int strPosGrid = 3;
+			final int strPosIndex = 4;
+			int grid = Character.getNumericValue(input.charAt(strPosGrid));
+			int index = Character.getNumericValue(input.charAt(strPosIndex));
+			
 			System.out.println("grid/index: " + grid + "/" + index); 
 			if (controller.valid(grid, index)) {					
 				controller.setToken(grid, index);

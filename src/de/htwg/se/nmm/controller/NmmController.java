@@ -94,7 +94,7 @@ public final class NmmController extends Observable {
 	}
 	
 	public Player otherPlayer() {
-		if (currentPlayer == playerOne) {
+		if (currentPlayer.equals(playerOne)) {
 			return playerTwo;
 		}
 		return playerOne;

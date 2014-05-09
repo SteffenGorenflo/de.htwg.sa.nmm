@@ -3,9 +3,6 @@ package de.htwg.se.nmm.model;
 import java.awt.Color;
 
 
-/**
- * Men represents the game pieces.
- */
 public final class Token {
 	
 	private final Color color; 

@@ -47,7 +47,8 @@ public final class Field {
 	
 	public boolean indexNeighbour(Field other) {
 		int indexDelta = Math.abs(other.index - index);
-		return (indexDelta == 7 || indexDelta == 1) ? true : false;
+		final int indexOverflow = 7;
+		return (indexDelta == indexOverflow || indexDelta == 1) ? true : false;
 	}
 			
 	public boolean sameGrid(Field other) {
@@ -74,8 +75,9 @@ public final class Field {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Field))
+		if (!(obj instanceof Field)) {
 			return false;
+		}			
 		Field other = (Field) obj;
 		return grid == other.grid && index == other.index;
 	}		

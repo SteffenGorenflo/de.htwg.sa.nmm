@@ -4,10 +4,11 @@ import java.awt.Color;
 
 public final class Player {
 		
+	private final int nrStartToken = 9;
 	private final String name;
 	private final Color color;	
 	private Status status;	
-	int token;
+	private int token;
 	 
 	public enum Status {
 		SetToken,
@@ -24,7 +25,7 @@ public final class Player {
 			
 	public void init() {
 		status = Status.SetToken;
-		token = 9;
+		token = nrStartToken;
 	}
 	
 	public Status getStatus() {
@@ -66,8 +67,9 @@ public final class Player {
 			
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Player))
+		if (!(obj instanceof Player)) {
 			return false;
+		}
 		Player other = (Player)obj;
 		return color.equals(other.color);
 	}	
