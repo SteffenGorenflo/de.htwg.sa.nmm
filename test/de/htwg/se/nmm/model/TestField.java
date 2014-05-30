@@ -7,6 +7,9 @@ import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.se.nmm.model.impl.Field;
+import de.htwg.se.nmm.model.impl.Token;
+
 public class TestField {
 
 	Field field;

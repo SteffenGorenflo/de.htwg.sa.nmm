@@ -1,16 +1,16 @@
 package de.htwg.se.nmm.controller.gameaction;
 
-import de.htwg.se.nmm.model.Field;
-import de.htwg.se.nmm.model.Player;
-import de.htwg.se.nmm.model.Token;
-import de.htwg.se.nmm.model.Player.Status;
+import de.htwg.se.nmm.model.IField;
+import de.htwg.se.nmm.model.IPlayer;
+import de.htwg.se.nmm.model.IPlayer.Status;
+import de.htwg.se.nmm.model.IToken;
 
 public class SetTokenAction implements IAction {
 
-	private final Player player;
-	private final Field field;
+	private final IPlayer player;
+	private final IField field;
 	
-	public SetTokenAction(Player player, Field field) {
+	public SetTokenAction(IPlayer player, IField field) {
 		this.player = player;		
 		this.field = field;
 	}
@@ -38,7 +38,7 @@ public class SetTokenAction implements IAction {
 
 	@Override
 	public void execute() {
-		Token t = player.takeToken();
+		IToken t = player.takeToken();
 		field.setToken(t);
 	}
 }

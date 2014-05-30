@@ -1,10 +1,13 @@
-package de.htwg.se.nmm.model;
+package de.htwg.se.nmm.model.impl;
 
-public final class Field {
+import de.htwg.se.nmm.model.IField;
+import de.htwg.se.nmm.model.IToken;
+
+public final class Field implements IField {
 	
 	private int grid;
 	private int index;
-	private Token token;
+	private IToken token;
 	
 	public Field(int grid, int index) {
 		this.grid = grid;
@@ -19,7 +22,7 @@ public final class Field {
 		return index;
 	}
 	
-	public Token getToken() {
+	public IToken getToken() {
 		return token;
 	}
 	
@@ -27,11 +30,11 @@ public final class Field {
 		return this.token != null;
 	}
 	
-	public void setToken(Token token) {
+	public void setToken(IToken token) {
 		this.token = token;
 	}
 	
-	public boolean neighbour(Field other) {
+	public boolean neighbour(IField other) {
 		boolean neighbour = false;
 		if (sameGrid(other) && indexNeighbour(other)) {
 			neighbour = true;
@@ -41,22 +44,22 @@ public final class Field {
 		return neighbour;
 	}
 	
-	public boolean sameIndex(Field other) {
-		return (other.index == index) ? true : false;
+	public boolean sameIndex(IField other) {
+		return (other.index() == index) ? true : false;
 	}
 	
-	public boolean indexNeighbour(Field other) {
-		int indexDelta = Math.abs(other.index - index);
+	public boolean indexNeighbour(IField other) {
+		int indexDelta = Math.abs(other.index() - index);
 		final int indexOverflow = 7;
 		return (indexDelta == indexOverflow || indexDelta == 1) ? true : false;
 	}
 			
-	public boolean sameGrid(Field other) {
-		return (other.grid == grid) ? true : false;
+	public boolean sameGrid(IField other) {
+		return (other.grid() == grid) ? true : false;
 	}
 	
-	public boolean gridNeighour(Field other) {
-		int gridDelta = Math.abs(other.grid - grid);
+	public boolean gridNeighour(IField other) {
+		int gridDelta = Math.abs(other.grid() - grid);
 		return (gridDelta == 1) ? true : false;
 	}
 	

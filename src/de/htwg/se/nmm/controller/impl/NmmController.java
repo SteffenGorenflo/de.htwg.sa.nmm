@@ -1,31 +1,31 @@
-package de.htwg.se.nmm.controller;
+package de.htwg.se.nmm.controller.impl;
 
+import de.htwg.se.nmm.controller.INmmController;
 import de.htwg.se.nmm.controller.gameaction.IAction;
 import de.htwg.se.nmm.controller.gameaction.MoveTokenAction;
 import de.htwg.se.nmm.controller.gameaction.PickTokenAction;
 import de.htwg.se.nmm.controller.gameaction.SetTokenAction;
-import de.htwg.se.nmm.model.Field;
-import de.htwg.se.nmm.model.Gamefield;
-import de.htwg.se.nmm.model.Player;
-import de.htwg.se.nmm.model.Token;
-import de.htwg.se.nmm.model.Player.Status;
+import de.htwg.se.nmm.model.IField;
+import de.htwg.se.nmm.model.IGamefield;
+import de.htwg.se.nmm.model.IPlayer;
+import de.htwg.se.nmm.model.IPlayer.Status;
+import de.htwg.se.nmm.model.IToken;
 import de.htwg.se.nmm.util.observer.Observable;
 
-public final class NmmController extends Observable {
+public final class NmmController extends Observable implements INmmController {
 	
 	private String status = "Nine Men's Morris";
-	private Gamefield gamefield;	
-	private Player playerOne, playerTwo, currentPlayer;
+	private IGamefield gamefield;	
+	private IPlayer playerOne, playerTwo, currentPlayer;
 	private IAction action;
 	
-	public NmmController(Gamefield gamefield, Player p1, Player p2) {
+	public NmmController(IGamefield gamefield, IPlayer p1, IPlayer p2) {
 		this.gamefield = gamefield;		
 		this.playerOne = p1;
 		this.playerTwo = p2;
 		this.currentPlayer = playerOne;
 	}
-		
-	
+			
 	public void restart() {
 		gamefield.init();
 		playerOne.init();
@@ -36,7 +36,7 @@ public final class NmmController extends Observable {
 	}	
 	
 	public void pickToken(int grid, int index) {
-		Field field = gamefield.field(grid, index);
+		IField field = gamefield.field(grid, index);
 		action = new PickTokenAction(currentPlayer, field);
 		if (action.valid()) {
 			action.execute();					
@@ -45,6 +45,8 @@ public final class NmmController extends Observable {
 				currentPlayer = otherPlayer();
 				currentPlayer.setStatus(Status.GameLost);
 				status += "\nplayer " + currentPlayer + " lost game!";
+			} else {
+				nextPlayer();
 			}
 		} else {
 			status = "couldn'token pick token from " + field;
@@ -53,7 +55,7 @@ public final class NmmController extends Observable {
 	}
 
 	public void setToken(int grid, int index) {
-		Field field = gamefield.field(grid, index);
+		IField field = gamefield.field(grid, index);
 		action = new SetTokenAction(currentPlayer, field);
 		if (action.valid()) {
 			action.execute();	
@@ -71,8 +73,8 @@ public final class NmmController extends Observable {
 	}
 
 	public void moveToken(int sourceGrid, int sourceIndex, int destGrid, int destIndex) {
-		Field source = gamefield.field(sourceGrid, sourceIndex);
-		Field dest   = gamefield.field(destGrid, destIndex);
+		IField source = gamefield.field(sourceGrid, sourceIndex);
+		IField dest   = gamefield.field(destGrid, destIndex);
 		action = new MoveTokenAction(currentPlayer, source, dest);		
 		if (action.valid()) {
 			action.execute();			
@@ -86,14 +88,27 @@ public final class NmmController extends Observable {
 		} else {
 			status = "couldn'token move token to " + dest;			
 		}		
-		notifyObservers();						
+		notifyObservers();					
 	}
 	
-	public Player currentPlayer() {
+	public IPlayer currentPlayer() {
 		return currentPlayer;
 	}
 	
-	public Player otherPlayer() {
+	public String color(int grid, int index) {
+		final String whiteToken = "\u25CB";
+		final String blackToken = "\u2B24";
+		final String noToken = "+";
+		IToken t = gamefield.field(grid, index).getToken();
+		if (t == null) {
+			return noToken;
+		} else if (t.color() == java.awt.Color.WHITE) {
+			return whiteToken;
+		}
+		return blackToken;
+	}
+	
+	public IPlayer otherPlayer() {
 		if (currentPlayer.equals(playerOne)) {
 			return playerTwo;
 		}
@@ -113,7 +128,7 @@ public final class NmmController extends Observable {
 		return status;
 	}
 
-	public Token getToken(int grid, int index) {
+	public IToken getToken(int grid, int index) {
 		return gamefield.field(grid, index).getToken();
 	}
 	

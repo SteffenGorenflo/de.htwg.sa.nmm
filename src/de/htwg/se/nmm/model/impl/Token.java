@@ -1,9 +1,10 @@
-package de.htwg.se.nmm.model;
+package de.htwg.se.nmm.model.impl;
 
 import java.awt.Color;
 
+import de.htwg.se.nmm.model.IToken;
 
-public final class Token {
+public final class Token implements IToken {
 	
 	private final Color color; 
 	

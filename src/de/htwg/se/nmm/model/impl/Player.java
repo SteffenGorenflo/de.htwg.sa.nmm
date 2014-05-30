@@ -1,21 +1,18 @@
-package de.htwg.se.nmm.model;
+package de.htwg.se.nmm.model.impl;
 
 import java.awt.Color;
 
-public final class Player {
+import de.htwg.se.nmm.model.IPlayer;
+import de.htwg.se.nmm.model.IToken;
+
+public final class Player implements IPlayer {
 		
 	private static final int STARTTOKEN = 9;
 	private final String name;
 	private final Color color;	
 	private Status status;	
 	private int token;
-	 
-	public enum Status {
-		SetToken,
-		MoveToken,
-		PickToken,
-		GameLost;
-	}	
+	 	
 			
 	public Player(String name, Color color) {		
 		this.name = name;
@@ -40,8 +37,8 @@ public final class Player {
 		this.status = status;		
 	}
 	
-	public Token takeToken() {
-		Token t = null;
+	public IToken takeToken() {
+		IToken t = null;
 		if (token > 0) {
 			t = new Token(color);
 			token--;

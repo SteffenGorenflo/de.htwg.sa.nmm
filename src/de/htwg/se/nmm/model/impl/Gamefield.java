@@ -1,7 +1,12 @@
-package de.htwg.se.nmm.model;
+package de.htwg.se.nmm.model.impl;
+
+import de.htwg.se.nmm.model.IField;
+import de.htwg.se.nmm.model.IGamefield;
+import de.htwg.se.nmm.model.IPlayer;
+import de.htwg.se.nmm.model.IToken;
 
 
-public final class Gamefield {	
+public final class Gamefield implements IGamefield {	
 	
 	private static final int GRIDS = 3;
 	private static final int INDEX = 8;	
@@ -24,7 +29,7 @@ public final class Gamefield {
 		return gamefield[grid][index];
 	}
 	
-	public int countToken(Player player) {
+	public int countToken(IPlayer player) {
 		int countToken = 0;
 		for (int grid = 0; grid < GRIDS; grid++) {
 			for (int index = 0; index < INDEX; index++) {
@@ -38,7 +43,7 @@ public final class Gamefield {
 	}
 
 	
-	public boolean mill(Field field) {				
+	public boolean mill(IField field) {				
 		int grid = field.grid();
 		int index = field.index();
 		if (field.corner()) {
@@ -49,7 +54,7 @@ public final class Gamefield {
 	
 	private boolean checkNeighbours(int grid, int index, boolean betweenGrid) {
 		final int tokenForMill = 3;				
-		Token[] three = new Token[tokenForMill];
+		IToken[] three = new IToken[tokenForMill];
 		for (int i = -1; i < 2; i++) {			
 			int curGrid = grid;
 			int curIndex = index;

@@ -7,7 +7,9 @@ import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.se.nmm.model.Player.Status;
+import de.htwg.se.nmm.model.impl.Player;
+import de.htwg.se.nmm.model.impl.Token;
+import de.htwg.se.nmm.model.IPlayer.Status;
 
 public class TestPlayer {
 
@@ -68,7 +70,7 @@ public class TestPlayer {
 
 	@Test
 	public void testTakeToken() {
-		Token t = null;
+		IToken t = null;
 		while (player.hasToken()) {
 			t = player.takeToken();
 			assertTrue(t != null);
@@ -135,5 +137,4 @@ public class TestPlayer {
 		Player p2 = new Player("moritz", Color.BLACK);
 		assertTrue(p1.hashCode() == p2.hashCode());
 	}
-
 }

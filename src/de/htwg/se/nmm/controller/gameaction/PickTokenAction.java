@@ -1,15 +1,15 @@
 package de.htwg.se.nmm.controller.gameaction;
 
-import de.htwg.se.nmm.model.Field;
-import de.htwg.se.nmm.model.Player;
-import de.htwg.se.nmm.model.Player.Status;
+import de.htwg.se.nmm.model.IField;
+import de.htwg.se.nmm.model.IPlayer;
+import de.htwg.se.nmm.model.IPlayer.Status;;
 
 public class PickTokenAction implements IAction {
 
-	private Player player;
-	private Field field;
+	private IPlayer player;
+	private IField field;
 	
-	public PickTokenAction(Player player, Field field) {
+	public PickTokenAction(IPlayer player, IField field) {
 		this.player = player;
 		this.field = field;
 	}

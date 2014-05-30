@@ -1,16 +1,17 @@
 package de.htwg.se.nmm.controller.gameaction;
 
-import de.htwg.se.nmm.model.Field;
-import de.htwg.se.nmm.model.Player;
-import de.htwg.se.nmm.model.Token;
-import de.htwg.se.nmm.model.Player.Status;
+
+import de.htwg.se.nmm.model.IField;
+import de.htwg.se.nmm.model.IPlayer;
+import de.htwg.se.nmm.model.IPlayer.Status;
+import de.htwg.se.nmm.model.IToken;
 
 public class MoveTokenAction implements IAction {
 
-	private final Player player;
-	private final Field source, destination;
+	private final IPlayer player;
+	private final IField source, destination;
 	 
-	public MoveTokenAction(Player player, Field source, Field destination) {
+	public MoveTokenAction(IPlayer player, IField source, IField destination) {
 		this.player = player;
 		this.source = source;
 		this.destination = destination;
@@ -44,7 +45,7 @@ public class MoveTokenAction implements IAction {
 
 	@Override
 	public void execute() {
-		Token t = source.getToken();
+		IToken t = source.getToken();
 		source.setToken(null);
 		destination.setToken(t);
 	}

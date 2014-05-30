@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.util.Scanner;
 
 import de.htwg.se.nmm.aview.TextUserInterface;
-import de.htwg.se.nmm.controller.NmmController;
-import de.htwg.se.nmm.model.Gamefield;
-import de.htwg.se.nmm.model.Player;
+import de.htwg.se.nmm.controller.impl.NmmController;
+import de.htwg.se.nmm.model.impl.Gamefield;
+import de.htwg.se.nmm.model.impl.Player;
 
 
 public final class NineMensMorris {

@@ -7,6 +7,11 @@ import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.se.nmm.model.impl.Field;
+import de.htwg.se.nmm.model.impl.Gamefield;
+import de.htwg.se.nmm.model.impl.Player;
+import de.htwg.se.nmm.model.impl.Token;
+
 public class TestGamefield {
 
 	Gamefield gamefield;
@@ -24,7 +29,7 @@ public class TestGamefield {
 	@Test
 	public void testInit() {
 		Player p = new Player("name", Color.BLACK);
-		Token t = p.takeToken();
+		IToken t = p.takeToken();
 		Field f = gamefield.field(0, 0);
 		f.setToken(t);
 		assertTrue(gamefield.countToken(p) == 1);

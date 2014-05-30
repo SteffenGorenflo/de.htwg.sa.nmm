@@ -6,11 +6,10 @@ import java.awt.Color;
 
 import org.junit.Test;
 
-import de.htwg.se.nmm.controller.gameaction.SetTokenAction;
-import de.htwg.se.nmm.model.Field;
-import de.htwg.se.nmm.model.Player;
-import de.htwg.se.nmm.model.Player.Status;
-import de.htwg.se.nmm.model.Token;
+import de.htwg.se.nmm.model.impl.Field;
+import de.htwg.se.nmm.model.impl.Player;
+import de.htwg.se.nmm.model.impl.Token;
+import de.htwg.se.nmm.model.IPlayer.Status;
 
 public class TestSetTokenAction {
 

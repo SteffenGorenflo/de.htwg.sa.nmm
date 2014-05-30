@@ -7,9 +7,10 @@ import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.se.nmm.model.Gamefield;
-import de.htwg.se.nmm.model.Player;
-import de.htwg.se.nmm.model.Player.Status;
+import de.htwg.se.nmm.controller.impl.NmmController;
+import de.htwg.se.nmm.model.impl.Gamefield;
+import de.htwg.se.nmm.model.impl.Player;
+import de.htwg.se.nmm.model.IPlayer.Status;
 
 public class TestNmmController {
 
