@@ -143,6 +143,10 @@ public final class TextUserInterface implements IObserver {
 			
 			printHelp();
 			
+		} else if (input.equals("u")) {
+			
+			controller.undo();
+			
 		} else if (input.matches("move\\d\\dto\\d\\d")) {
 			
 			final int strPosSourceGrid = 4;

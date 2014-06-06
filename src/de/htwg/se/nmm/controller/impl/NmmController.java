@@ -1,10 +1,12 @@
 package de.htwg.se.nmm.controller.impl;
 
+import java.util.Stack;
+
 import de.htwg.se.nmm.controller.INmmController;
-import de.htwg.se.nmm.controller.gameaction.IAction;
-import de.htwg.se.nmm.controller.gameaction.MoveTokenAction;
-import de.htwg.se.nmm.controller.gameaction.PickTokenAction;
-import de.htwg.se.nmm.controller.gameaction.SetTokenAction;
+import de.htwg.se.nmm.controller.commands.IGameCommand;
+import de.htwg.se.nmm.controller.commands.MoveTokenCommand;
+import de.htwg.se.nmm.controller.commands.PickTokenCommand;
+import de.htwg.se.nmm.controller.commands.SetTokenCommand;
 import de.htwg.se.nmm.model.IField;
 import de.htwg.se.nmm.model.IGamefield;
 import de.htwg.se.nmm.model.IPlayer;
@@ -17,13 +19,14 @@ public final class NmmController extends Observable implements INmmController {
 	private String status = "Nine Men's Morris";
 	private IGamefield gamefield;	
 	private IPlayer playerOne, playerTwo, currentPlayer;
-	private IAction action;
+	private IGameCommand action = null;
+	private Stack<IGameCommand> undoStack = new Stack<>();
 	
 	public NmmController(IGamefield gamefield, IPlayer p1, IPlayer p2) {
 		this.gamefield = gamefield;		
 		this.playerOne = p1;
 		this.playerTwo = p2;
-		this.currentPlayer = playerOne;
+		this.currentPlayer = playerOne;		
 	}
 			
 	public void restart() {
@@ -32,14 +35,16 @@ public final class NmmController extends Observable implements INmmController {
 		playerTwo.init();
 		currentPlayer = playerOne;		
 		status = "Nine Men's Morris";
+		undoStack.clear();
 		notifyObservers();
 	}	
 	
 	public void pickToken(int grid, int index) {
 		IField field = gamefield.field(grid, index);
-		action = new PickTokenAction(currentPlayer, field);
+		action = new PickTokenCommand(currentPlayer, field);
 		if (action.valid()) {
-			action.execute();					
+			action.execute();	
+			undoStack.add(action);
 			status = "picked token from " + field;
 			if (gamefield.countToken(otherPlayer()) == 2 && !otherPlayer().hasToken()){				
 				currentPlayer = otherPlayer();
@@ -48,7 +53,7 @@ public final class NmmController extends Observable implements INmmController {
 			} else {
 				nextPlayer();
 			}
-		} else {
+		} else {			
 			status = "couldn'token pick token from " + field;
 		}
 		notifyObservers();
@@ -56,9 +61,10 @@ public final class NmmController extends Observable implements INmmController {
 
 	public void setToken(int grid, int index) {
 		IField field = gamefield.field(grid, index);
-		action = new SetTokenAction(currentPlayer, field);
+		action = new SetTokenCommand(currentPlayer, field);
 		if (action.valid()) {
 			action.execute();	
+			undoStack.add(action);
 			if (gamefield.mill(field)) { 
 				status = "mill!";
 				currentPlayer.setStatus(Status.PickToken);
@@ -66,7 +72,7 @@ public final class NmmController extends Observable implements INmmController {
 				status = "set token to " + field;
 				nextPlayer();
 			}			
-		} else {	
+		} else {				
 			status = "couldn'token set token to " + field;
 		}		
 		notifyObservers();			
@@ -75,9 +81,10 @@ public final class NmmController extends Observable implements INmmController {
 	public void moveToken(int sourceGrid, int sourceIndex, int destGrid, int destIndex) {
 		IField source = gamefield.field(sourceGrid, sourceIndex);
 		IField dest   = gamefield.field(destGrid, destIndex);
-		action = new MoveTokenAction(currentPlayer, source, dest);		
+		action = new MoveTokenCommand(currentPlayer, source, dest);		
 		if (action.valid()) {
-			action.execute();			
+			action.execute();		
+			undoStack.add(action);
 			if (gamefield.mill(dest)) {				
 				status = "mill!";
 				currentPlayer.setStatus(Status.PickToken);
@@ -85,7 +92,7 @@ public final class NmmController extends Observable implements INmmController {
 				status = "moved token to " + dest;
 				nextPlayer();
 			}
-		} else {
+		} else {			
 			status = "couldn'token move token to " + dest;			
 		}		
 		notifyObservers();					
@@ -142,5 +149,17 @@ public final class NmmController extends Observable implements INmmController {
 	
 	public int index() {
 		return gamefield.index();
+	}
+
+	@Override
+	public boolean undo() {
+		if (!undoStack.empty()) {
+			if (undoStack.pop().undo()) {
+				nextPlayer();
+			}
+			notifyObservers();
+			return true;
+		} 
+		return false;
 	}
 }

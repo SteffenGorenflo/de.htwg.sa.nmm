@@ -28,4 +28,6 @@ public interface INmmController {
 	int grids();
 	
 	int index();
+	
+	boolean undo();
 }

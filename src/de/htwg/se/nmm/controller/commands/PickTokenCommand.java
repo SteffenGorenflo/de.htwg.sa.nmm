@@ -1,15 +1,17 @@
-package de.htwg.se.nmm.controller.gameaction;
+package de.htwg.se.nmm.controller.commands;
 
 import de.htwg.se.nmm.model.IField;
 import de.htwg.se.nmm.model.IPlayer;
-import de.htwg.se.nmm.model.IPlayer.Status;;
+import de.htwg.se.nmm.model.IPlayer.Status;
+import de.htwg.se.nmm.model.IToken;
 
-public class PickTokenAction implements IAction {
+public class PickTokenCommand implements IGameCommand {
 
-	private IPlayer player;
-	private IField field;
+	private final IPlayer player;
+	private final IField field;
+	private IToken token;
 	
-	public PickTokenAction(IPlayer player, IField field) {
+	public PickTokenCommand(IPlayer player, IField field) {
 		this.player = player;
 		this.field = field;
 	}
@@ -37,6 +39,13 @@ public class PickTokenAction implements IAction {
 
 	@Override
 	public void execute() { 
+		token = field.getToken();
 		field.setToken(null);
+	}
+
+	@Override
+	public boolean undo() {
+		field.setToken(token);
+		return false;
 	}
 }

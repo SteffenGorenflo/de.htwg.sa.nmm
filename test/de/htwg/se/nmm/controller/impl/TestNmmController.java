@@ -1,4 +1,4 @@
-package de.htwg.se.nmm.controller;
+package de.htwg.se.nmm.controller.impl;
 
 import static org.junit.Assert.*;
 
@@ -190,5 +190,12 @@ public class TestNmmController {
 	@Test
 	public void testIndex() {
 		assertTrue(controller.index() == 8);
+	}
+	
+	@Test
+	public void testUndo() {
+		assert(controller.undo() == false);
+		controller.setToken(0, 0);
+		assert(controller.undo() == true);
 	}
 }

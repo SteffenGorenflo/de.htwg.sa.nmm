@@ -6,6 +6,7 @@ import java.awt.Color;
 
 import org.junit.Test;
 
+import de.htwg.se.nmm.controller.commands.MoveTokenCommand;
 import de.htwg.se.nmm.model.impl.Field;
 import de.htwg.se.nmm.model.impl.Player;
 import de.htwg.se.nmm.model.impl.Token;
@@ -13,14 +14,14 @@ import de.htwg.se.nmm.model.IPlayer.Status;
 
 public class TestMoveTokenAction {
 
-	MoveTokenAction action;
+	MoveTokenCommand action;
 		
 	@Test
 	public void testMoveTokenAction() {
 		Player p = new Player("player", Color.BLACK);
 		Field source = new Field(0,0);
 		Field dest = new Field(0,1);
-		action = new MoveTokenAction(p, source, dest);
+		action = new MoveTokenCommand(p, source, dest);
 	}
 
 	@Test
@@ -28,7 +29,7 @@ public class TestMoveTokenAction {
 		Player p = new Player("player", Color.BLACK);
 		Field source= new Field(0, 0);
 		Field dest = new Field(0, 1);
-		action = new MoveTokenAction(p, source, dest);
+		action = new MoveTokenCommand(p, source, dest);
 		
 		// wrong player status
 		p.setStatus(Status.PickToken);
@@ -62,7 +63,7 @@ public class TestMoveTokenAction {
 		Field source= new Field(0, 0);
 		source.setToken(new Token(Color.BLACK));
 		Field dest = new Field(0, 1);
-		action = new MoveTokenAction(p, source, dest);
+		action = new MoveTokenCommand(p, source, dest);
 		
 		assertTrue(action.valid());
 		action.execute();

@@ -75,5 +75,10 @@ public final class Player implements IPlayer {
 	public int hashCode() {
 		return color.hashCode();
 	}
+
+	@Override
+	public void addToken() {		
+		this.token++;				
+	}
 		
 }

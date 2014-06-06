@@ -6,6 +6,7 @@ import java.awt.Color;
 
 import org.junit.Test;
 
+import de.htwg.se.nmm.controller.commands.SetTokenCommand;
 import de.htwg.se.nmm.model.impl.Field;
 import de.htwg.se.nmm.model.impl.Player;
 import de.htwg.se.nmm.model.impl.Token;
@@ -13,13 +14,13 @@ import de.htwg.se.nmm.model.IPlayer.Status;
 
 public class TestSetTokenAction {
 
-	SetTokenAction action;
+	SetTokenCommand action;
 	
 	@Test
 	public void testSetTokenAction() {
 		Player player = new Player("player", Color.BLACK);
 		Field field = new Field(0, 0);
-		action = new SetTokenAction(player, field);
+		action = new SetTokenCommand(player, field);
 	}
 
 	@Test
@@ -28,7 +29,7 @@ public class TestSetTokenAction {
 		Player player = new Player("player", Color.BLACK);
 		Field field = new Field(0, 0);
 		player.setStatus(Status.MoveToken);
-		action = new SetTokenAction(player, field);
+		action = new SetTokenCommand(player, field);
 		
 		// player is not allowed to set a token
 		assertFalse(action.valid());
@@ -54,7 +55,7 @@ public class TestSetTokenAction {
 	public void testExecute() {
 		Player player = new Player("player", Color.BLACK);
 		Field field = new Field(0, 0);
-		action = new SetTokenAction(player, field);
+		action = new SetTokenCommand(player, field);
 		
 		assert(action.valid());
 		action.execute();

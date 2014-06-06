@@ -1,4 +1,4 @@
-package de.htwg.se.nmm.controller.gameaction;
+package de.htwg.se.nmm.controller.commands;
 
 
 import de.htwg.se.nmm.model.IField;
@@ -6,12 +6,12 @@ import de.htwg.se.nmm.model.IPlayer;
 import de.htwg.se.nmm.model.IPlayer.Status;
 import de.htwg.se.nmm.model.IToken;
 
-public class MoveTokenAction implements IAction {
+public class MoveTokenCommand implements IGameCommand {
 
 	private final IPlayer player;
 	private final IField source, destination;
 	 
-	public MoveTokenAction(IPlayer player, IField source, IField destination) {
+	public MoveTokenCommand(IPlayer player, IField source, IField destination) {
 		this.player = player;
 		this.source = source;
 		this.destination = destination;
@@ -50,4 +50,11 @@ public class MoveTokenAction implements IAction {
 		destination.setToken(t);
 	}
 
+	@Override
+	public boolean undo() {
+		IToken t = destination.getToken();
+		source.setToken(t);
+		destination.setToken(null);
+		return true;
+	}
 }

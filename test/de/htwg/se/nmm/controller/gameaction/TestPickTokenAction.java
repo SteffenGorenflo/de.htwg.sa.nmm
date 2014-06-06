@@ -6,6 +6,7 @@ import java.awt.Color;
 
 import org.junit.Test;
 
+import de.htwg.se.nmm.controller.commands.PickTokenCommand;
 import de.htwg.se.nmm.model.impl.Field;
 import de.htwg.se.nmm.model.impl.Player;
 import de.htwg.se.nmm.model.impl.Token;
@@ -14,13 +15,13 @@ import de.htwg.se.nmm.model.IToken;
 
 public class TestPickTokenAction {
 
-	PickTokenAction action;
+	PickTokenCommand action;
 	
 	@Test
 	public void testPickTokenAction() {
 		Player player = new Player("player", Color.BLACK);
 		Field field = new Field(0, 0);
-		action = new PickTokenAction(player, field);
+		action = new PickTokenCommand(player, field);
 	}
 
 	@Test
@@ -28,7 +29,7 @@ public class TestPickTokenAction {
 		
 		Player player = new Player("Player", Color.BLACK);
 		Field field = new Field(0, 0);
-		action = new PickTokenAction(player, field);
+		action = new PickTokenCommand(player, field);
 		
 		/* player is in wrong status */
 		assertFalse(action.valid());
@@ -54,7 +55,7 @@ public class TestPickTokenAction {
 		Field field = new Field(0, 0);
 		field.setToken(new Token(Color.WHITE));
 		player.setStatus(Status.PickToken);
-		action = new PickTokenAction(player, field);
+		action = new PickTokenCommand(player, field);
 		assert(action.valid());
 		action.execute();
 		assertFalse(field.hasToken());

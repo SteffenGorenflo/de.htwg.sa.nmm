@@ -27,6 +27,8 @@ public interface IPlayer {
 	
 	int token();
 	
+	void addToken();
+	
 	String name();
 	
 	Color color();
