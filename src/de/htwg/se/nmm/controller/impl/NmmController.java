@@ -39,11 +39,13 @@ public final class NmmController extends Observable implements INmmController {
 		notifyObservers();
 	}	
 	
-	public void pickToken(int grid, int index) {
+	public boolean pickToken(int grid, int index) {
+		boolean ok = false;
 		IField field = gamefield.field(grid, index);
 		action = new PickTokenCommand(currentPlayer, field);
 		if (action.valid()) {
-			action.execute();	
+			action.execute();
+			ok = true;
 			undoStack.add(action);
 			status = "picked token from " + field;
 			if (gamefield.countToken(otherPlayer()) == 2 && !otherPlayer().hasToken()){				
@@ -57,13 +59,16 @@ public final class NmmController extends Observable implements INmmController {
 			status = "couldn'token pick token from " + field;
 		}
 		notifyObservers();
+		return ok;
 	}
 
-	public void setToken(int grid, int index) {
+	public boolean setToken(int grid, int index) {
+		boolean ok = false;
 		IField field = gamefield.field(grid, index);
 		action = new SetTokenCommand(currentPlayer, field);
 		if (action.valid()) {
 			action.execute();	
+			ok = true;
 			undoStack.add(action);
 			if (gamefield.mill(field)) { 
 				status = "mill!";
@@ -75,19 +80,22 @@ public final class NmmController extends Observable implements INmmController {
 		} else {				
 			status = "couldn'token set token to " + field;
 		}		
-		notifyObservers();			
+		notifyObservers();	
+		return ok;
 	}
 
-	public void moveToken(int sourceGrid, int sourceIndex, int destGrid, int destIndex) {
+	public boolean moveToken(int sourceGrid, int sourceIndex, int destGrid, int destIndex) {
+		boolean ok = false;
 		IField source = gamefield.field(sourceGrid, sourceIndex);
 		IField dest   = gamefield.field(destGrid, destIndex);
 		action = new MoveTokenCommand(currentPlayer, source, dest);		
 		if (action.valid()) {
-			action.execute();		
+			action.execute();
+			ok = true;
 			undoStack.add(action);
 			if (gamefield.mill(dest)) {				
 				status = "mill!";
-				currentPlayer.setStatus(Status.PickToken);
+				currentPlayer.setStatus(Status.PickToken);				
 			} else {
 				status = "moved token to " + dest;
 				nextPlayer();
@@ -95,7 +103,8 @@ public final class NmmController extends Observable implements INmmController {
 		} else {			
 			status = "couldn'token move token to " + dest;			
 		}		
-		notifyObservers();					
+		notifyObservers();
+		return ok;
 	}
 	
 	public IPlayer currentPlayer() {
@@ -103,16 +112,25 @@ public final class NmmController extends Observable implements INmmController {
 	}
 	
 	public String color(int grid, int index) {
+		String dump = dumpColor(grid, index);
+		if (dump.equals("")) {
+			return "+";
+		} else if (dump.equals("BLACK")) {
+			final String blackToken = "\u2B24";
+			return blackToken;
+		}
 		final String whiteToken = "\u25CB";
-		final String blackToken = "\u2B24";
-		final String noToken = "+";
+		return whiteToken;	
+	}
+	
+	public String dumpColor(int grid, int index) {
 		IToken t = gamefield.field(grid, index).getToken();
 		if (t == null) {
-			return noToken;
+			return "";
 		} else if (t.color() == java.awt.Color.WHITE) {
-			return whiteToken;
+			return "WHITE";
 		}
-		return blackToken;
+		return "BLACK";
 	}
 	
 	public IPlayer otherPlayer() {
@@ -135,8 +153,8 @@ public final class NmmController extends Observable implements INmmController {
 		return status;
 	}
 
-	public IToken getToken(int grid, int index) {
-		return gamefield.field(grid, index).getToken();
+	public boolean hasToken(int grid, int index) {
+		return gamefield.field(grid, index).hasToken();		
 	}
 	
 	public boolean valid(int grid, int index) {
@@ -155,7 +173,7 @@ public final class NmmController extends Observable implements INmmController {
 	public boolean undo() {
 		if (!undoStack.empty()) {
 			if (undoStack.pop().undo()) {
-				nextPlayer();
+				nextPlayer(); 
 			}
 			notifyObservers();
 			return true;

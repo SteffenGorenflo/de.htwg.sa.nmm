@@ -2,16 +2,17 @@ package de.htwg.se.nmm.controller;
 
 import de.htwg.se.nmm.model.IPlayer;
 import de.htwg.se.nmm.model.IToken;
+import de.htwg.se.nmm.util.observer.IObservable;
 
-public interface INmmController {
+public interface INmmController extends IObservable {
 	
 	void restart();
 	
-	void pickToken(int grid, int index);
+	boolean pickToken(int grid, int index);
 	
-	void setToken(int grid, int index);
+	boolean setToken(int grid, int index);
 	
-	void moveToken(int sourceGrid, int sourceIndex, int destGrid, int destIndex);
+	boolean moveToken(int sourceGrid, int sourceIndex, int destGrid, int destIndex);
 	
 	IPlayer currentPlayer();
 	
@@ -21,7 +22,9 @@ public interface INmmController {
 	
 	String getStatus();
 	
-	IToken getToken(int grid, int index);
+	boolean hasToken(int grid, int index);
+	
+	String dumpColor(int grid, int index);
 	
 	boolean valid(int grid, int index);
 	

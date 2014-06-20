@@ -1,14 +1,15 @@
 package de.htwg.se.nmm.aview;
 
+import de.htwg.se.nmm.controller.INmmController;
 import de.htwg.se.nmm.controller.impl.NmmController;
 import de.htwg.se.nmm.util.observer.Event;
 import de.htwg.se.nmm.util.observer.IObserver;
 
 public final class TextUserInterface implements IObserver {	
 	 
-	private NmmController controller;
+	private INmmController controller;
 	
-	public TextUserInterface(NmmController controller) {
+	public TextUserInterface(INmmController controller) {
 		this.controller = controller;
 		this.controller.addObserver(this);
 		printGamefield();
