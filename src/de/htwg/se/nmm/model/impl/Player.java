@@ -2,6 +2,9 @@ package de.htwg.se.nmm.model.impl;
 
 import java.awt.Color;
 
+//import com.google.inject.Inject;
+//import com.google.inject.assistedinject.Assisted;
+
 import de.htwg.se.nmm.model.IPlayer;
 import de.htwg.se.nmm.model.IToken;
 
@@ -13,7 +16,7 @@ public final class Player implements IPlayer {
 	private Status status;	
 	private int token;
 	 	
-			
+	//@Inject		
 	public Player(String name, Color color) {		
 		this.name = name;
 		this.color = color;

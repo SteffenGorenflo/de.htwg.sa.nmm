@@ -1,6 +1,7 @@
 package de.htwg.se.nmm.model.impl;
 
 import de.htwg.se.nmm.model.IField;
+import com.google.inject.Inject;
 import de.htwg.se.nmm.model.IGamefield;
 import de.htwg.se.nmm.model.IPlayer;
 import de.htwg.se.nmm.model.IToken;
@@ -12,6 +13,7 @@ public final class Gamefield implements IGamefield {
 	private static final int INDEX = 8;	
 	private Field[][] gamefield = null;	
 	
+	@Inject	
 	public Gamefield() {			
 		init();
 	}
