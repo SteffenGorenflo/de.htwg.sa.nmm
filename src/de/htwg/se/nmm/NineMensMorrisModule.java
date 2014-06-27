@@ -3,7 +3,6 @@ package de.htwg.se.nmm;
 import com.google.inject.AbstractModule;
 
 import de.htwg.se.nmm.model.IGamefield;
-import de.htwg.se.nmm.model.IPlayer;
 
 public class NineMensMorrisModule extends AbstractModule {
 
