@@ -26,10 +26,12 @@ public final class NineMensMorris {
 		Injector injector = Guice.createInjector(new NineMensMorrisModule());
 
 		// IPlayer p1 = injector.getInstance(Player.class);
-		IPlayer p1 = new Player("Spieler 1", Color.BLACK);
-		IPlayer p2 = new Player("Spieler 2", Color.WHITE);
+
 		// IGamefield nmm = new Gamefield();
 		IGamefield nmm = injector.getInstance(Gamefield.class);
+		
+		IPlayer p1 = new Player("Spieler 1", Color.BLACK);
+		IPlayer p2 = new Player("Spieler 2", Color.WHITE);
 		NmmController controller = new NmmController(nmm, p1, p2);
 		TextUserInterface tui = new TextUserInterface(controller);
 		GraphicalUserInterface gui = new GraphicalUserInterface(controller);
