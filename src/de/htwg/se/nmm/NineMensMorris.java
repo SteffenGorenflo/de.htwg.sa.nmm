@@ -19,17 +19,8 @@ public final class NineMensMorris {
 	}
 
 	public static void main(String[] args) {
-
-		final Scanner in = new Scanner(System.in);
-
-		// Set up Google Guice Dependency Injector
 		Injector injector = Guice.createInjector(new NineMensMorrisModule());
-
-		// IPlayer p1 = injector.getInstance(Player.class);
-
-		// IGamefield nmm = new Gamefield();
-		IGamefield nmm = injector.getInstance(Gamefield.class);
-		
+		IGamefield nmm = injector.getInstance(IGamefield.class);
 		IPlayer p1 = new Player("Spieler 1", Color.BLACK);
 		IPlayer p2 = new Player("Spieler 2", Color.WHITE);
 		NmmController controller = new NmmController(nmm, p1, p2);
@@ -37,6 +28,7 @@ public final class NineMensMorris {
 		GraphicalUserInterface gui = new GraphicalUserInterface(controller);
 		gui.setVisible(true);
 
+        final Scanner in = new Scanner(System.in);
 		while (in.hasNext()) {
 			tui.handleUserInput(in.next());
 		}

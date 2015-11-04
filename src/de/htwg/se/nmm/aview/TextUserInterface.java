@@ -4,6 +4,7 @@ import de.htwg.se.nmm.controller.INmmController;
 import de.htwg.se.nmm.controller.impl.NmmController;
 import de.htwg.se.nmm.util.observer.Event;
 import de.htwg.se.nmm.util.observer.IObserver;
+import org.omg.CORBA.Environment;
 
 public final class TextUserInterface implements IObserver {	
 	 
@@ -29,15 +30,19 @@ public final class TextUserInterface implements IObserver {
 	}
 	
 	private void println(final String s) {
-		print(s+"\n");		
+		print(s + "\n");
 	}		
 	
-	private void printGamefield() {			
-		
+	private void printGamefield() {
+        println(gamefieldAsString());
+	}		
+
+	public String gamefieldAsString() {
+
 		final int outerGrid = 0;
 		final int middleGrid = 1;
 		final int innerGrid = 2;
-		
+
 		final int topLeft = 0;
 		final int top = 1;
 		final int topRight =2;
@@ -45,80 +50,94 @@ public final class TextUserInterface implements IObserver {
 		final int bottomRight = 4;
 		final int bottom = 5;
 		final int bottomLeft = 6;
-		final int left = 7;		
-		
+		final int left = 7;
+
+        final String longDashLine = "-----------";
+        final String middleDashLine = "-------";
+        final String shortDashLine = "---";
+        final String nl = System.lineSeparator();
+
 		/* print first row */
-		print(controller.color(outerGrid, topLeft));		
-		print("-----------");
-		print(controller.color(outerGrid, top));		
-		print("-----------");
-		print(controller.color(outerGrid, topRight));		
-		print("\n|           |           |\n");
-		
+        StringBuilder s = new StringBuilder();
+
+
+        s.append(controller.color(outerGrid, topLeft));
+        s.append(longDashLine);
+		s.append(controller.color(outerGrid, top));
+		s.append(longDashLine);
+		s.append(controller.color(outerGrid, topRight));
+		s.append(nl + "|           |           |" + nl);
+
+
 		/* print second row */
-		print("|   ");		
-		print(controller.color(middleGrid, topLeft));
-		print("-------");
-		print(controller.color(middleGrid, top));		
-		print("-------");
-		print(controller.color(middleGrid, topRight));		
-		print("   |\n");
-		print("|   |       |       |   |\n");
-				
+        s.append("|   ");
+        s.append(controller.color(middleGrid, topLeft));
+		s.append(middleDashLine);
+		s.append(controller.color(middleGrid, top));
+		s.append(middleDashLine);
+		s.append(controller.color(middleGrid, topRight));
+		s.append("   |" + nl);
+        s.append("|   |       |       |   |" + nl);
+
+
 		/* print third row */
-		print("|   |   ");
-		print(controller.color(innerGrid, topLeft));		
-		print("---");
-		print(controller.color(innerGrid, top));		
-		print("---");
-		print(controller.color(innerGrid, topRight));		
-		print("   |   | \n");				
-		print("|   |   |       |   |   |\n");
-		
-		/* print fourth row */		
-		print(controller.color(outerGrid, left));		
-		print("---");
-		print(controller.color(middleGrid, left));		
-		print("---");
-		print(controller.color(innerGrid, left));		
-		print("       ");
-		print(controller.color(innerGrid, right));		
-		print("---");
-		print(controller.color(middleGrid, right));		
-		print("---");
-		print(controller.color(outerGrid, right));		
-		print("\n");		
-		print("|   |   |       |   |   |\n");		
-		
+
+		s.append("|   |   ");
+		s.append(controller.color(innerGrid, topLeft));
+		s.append(shortDashLine);
+		s.append(controller.color(innerGrid, top));
+		s.append(shortDashLine);
+		s.append(controller.color(innerGrid, topRight));
+		s.append("   |   | " + nl);
+		s.append("|   |   |       |   |   |" + nl);
+
+		/* print fourth row */
+		s.append(controller.color(outerGrid, left));
+		s.append(shortDashLine);
+		s.append(controller.color(middleGrid, left));
+		s.append(shortDashLine);
+		s.append(controller.color(innerGrid, left));
+		s.append("       ");
+		s.append(controller.color(innerGrid, right));
+		s.append(shortDashLine);
+		s.append(controller.color(middleGrid, right));
+		s.append(shortDashLine);
+		s.append(controller.color(outerGrid, right));
+		s.append(nl);
+		s.append("|   |   |       |   |   |" + nl);
+
 		/* print fifth row */
-		print("|   |   ");
-		print(controller.color(innerGrid, bottomLeft));		
-		print("---");
-		print(controller.color(innerGrid, bottom));		
-		print("---");
-		print(controller.color(innerGrid, bottomRight));		
-		print("   |   | \n");				
-		print("|   |       |       |   |\n");
-		
+		s.append("|   |   ");
+		s.append(controller.color(innerGrid, bottomLeft));
+		s.append(shortDashLine);
+		s.append(controller.color(innerGrid, bottom));
+		s.append(shortDashLine);
+		s.append(controller.color(innerGrid, bottomRight));
+		s.append("   |   | " + nl);
+		s.append("|   |       |       |   |" + nl);
+
 		/* print sixth row */
-		print("|   ");
-		print(controller.color(middleGrid, bottomLeft));
-		print("-------");
-		print(controller.color(middleGrid, bottom));
-		print("-------");
-		print(controller.color(middleGrid, bottomRight));
-		print("   |\n");
-		print("|           |           |\n");
-		
+        s.append("|   ");
+        s.append(controller.color(middleGrid, bottomLeft));
+		s.append(middleDashLine);
+		s.append(controller.color(middleGrid, bottom));
+		s.append(middleDashLine);
+		s.append(controller.color(middleGrid, bottomRight));
+		s.append("   |" + nl);
+        s.append("|           |           |" + nl);
+
 		/* print seventh row */
-		print(controller.color(outerGrid, bottomLeft));
-		print("-----------");
-		print(controller.color(outerGrid, bottom));		
-		print("-----------");
-		print(controller.color(outerGrid, bottomRight));
-		println("\n");
-	}		
-	
+        s.append(controller.color(outerGrid, bottomLeft));
+        s.append(longDashLine);
+
+        s.append(controller.color(outerGrid, bottom));
+		s.append(longDashLine);
+		s.append(controller.color(outerGrid, bottomRight));
+        s.append(nl);
+
+		return s.toString();
+	}
+
 	private void printHelp() {
 		println("setXY - set token to grid 'X' at index 'Y'");
 		println("pickXY - pick token from grid 'X' at index 'Y'");
