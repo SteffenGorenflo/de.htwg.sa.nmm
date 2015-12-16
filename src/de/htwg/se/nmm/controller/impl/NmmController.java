@@ -48,13 +48,13 @@ public final class NmmController extends Observable implements INmmController {
 			ok = true;
 			undoStack.add(action);
 			status = "picked token from " + field;
-			if (gamefield.countToken(otherPlayer()) == 2 && !otherPlayer().hasToken()){				
+			if (hasWon(otherPlayer())){
 				currentPlayer = otherPlayer();
 				currentPlayer.setStatus(Status.GameLost);
 				status += "\nplayer " + currentPlayer + " lost game!";
 			} else {
-				nextPlayer();
-			}
+                nextPlayer();
+            }
 		} else {			
 			status = "couldn'token pick token from " + field;
 		}
@@ -179,5 +179,12 @@ public final class NmmController extends Observable implements INmmController {
 			return true;
 		} 
 		return false;
+	}
+
+    @Override
+	public boolean hasWon(IPlayer player) {
+		boolean twoTokensOnField = gamefield.countToken(player) == 2;
+		boolean noTokensLeft = !player.hasToken();
+		return twoTokensOnField && noTokensLeft;
 	}
 }

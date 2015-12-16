@@ -33,4 +33,6 @@ public interface INmmController extends IObservable {
 	int index();
 	
 	boolean undo();
+
+	boolean hasWon(IPlayer player);
 }
