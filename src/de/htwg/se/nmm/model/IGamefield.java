@@ -23,4 +23,8 @@ public interface IGamefield {
     void nextPlayer();
 
     void setStatus(IPlayer.Status status);
+    
+    String getId();
+    
+    void setId(String id);
 }

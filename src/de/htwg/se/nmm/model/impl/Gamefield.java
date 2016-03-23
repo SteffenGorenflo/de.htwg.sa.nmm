@@ -11,6 +11,7 @@ public final class Gamefield implements IGamefield {
 	private static final int GRIDS = 3;
 	private static final int INDEX = 8;	
 	private Field[][] gamefield = null;	
+	private String id = "";
 
 	public Gamefield(IPlayer player1, IPlayer player2) {
         this.player1 = player1;
@@ -124,5 +125,15 @@ public final class Gamefield implements IGamefield {
 	@Override
 	public void setStatus(IPlayer.Status status) {
         currentPlayer.setStatus(status);
+	}
+
+	@Override
+	public String getId() {
+		return this.id;
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id = id;
 	}
 }
