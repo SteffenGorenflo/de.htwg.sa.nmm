@@ -18,12 +18,8 @@ public class TestGamefield {
 	
 	@Before
 	public void initTest() {
-		gamefield = new Gamefield();
-	}
-	
-	@Test
-	public void testGamefield() {
-		gamefield = new Gamefield();		
+		gamefield = new Gamefield(new Player("P1", Color.WHITE),
+				new Player("P2", Color.BLACK));
 	}
 
 	@Test

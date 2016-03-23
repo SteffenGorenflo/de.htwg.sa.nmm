@@ -15,4 +15,12 @@ public interface IGamefield {
 	int index();
 	
 	boolean valid(int grid, int index);
+
+    IPlayer getCurrentPlayer();
+
+    IPlayer getOtherPlayer();
+
+    void nextPlayer();
+
+    void setStatus(IPlayer.Status status);
 }

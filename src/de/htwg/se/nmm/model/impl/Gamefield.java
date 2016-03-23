@@ -1,24 +1,26 @@
 package de.htwg.se.nmm.model.impl;
 
 import de.htwg.se.nmm.model.IField;
-import com.google.inject.Inject;
 import de.htwg.se.nmm.model.IGamefield;
 import de.htwg.se.nmm.model.IPlayer;
 import de.htwg.se.nmm.model.IToken;
 
-
 public final class Gamefield implements IGamefield {	
-	
+
+	private IPlayer player1, player2, currentPlayer;
 	private static final int GRIDS = 3;
 	private static final int INDEX = 8;	
 	private Field[][] gamefield = null;	
-	
-	@Inject	
-	public Gamefield() {			
+
+	public Gamefield(IPlayer player1, IPlayer player2) {
+        this.player1 = player1;
+        this.player2 = player2;
+        this.currentPlayer = player1;
 		init();
 	}
 	
 	public void init() {
+        this.currentPlayer = player1;
 		gamefield = new Field[GRIDS][INDEX];
 		for (int grid = 0; grid < GRIDS; grid++) {
 			for (int index = 0; index < INDEX; index++) {
@@ -96,5 +98,31 @@ public final class Gamefield implements IGamefield {
 			return true;
 		}
 		return false;			
+	}
+
+	@Override
+	public IPlayer getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	@Override
+	public IPlayer getOtherPlayer() {
+        if (currentPlayer == player1)
+            return player2;
+		return player1;
+	}
+
+	@Override
+	public void nextPlayer() {
+		if (currentPlayer != player1) {
+			currentPlayer = player1;
+		} else {
+			currentPlayer= player2;
+		}
+	}
+
+	@Override
+	public void setStatus(IPlayer.Status status) {
+        currentPlayer.setStatus(status);
 	}
 }

@@ -20,10 +20,10 @@ public class TestNmmController {
 	
 	@Before
 	public void initTest() {
-		gamefield = new Gamefield();
 		playerOne = new Player("player1", Color.BLACK);
 		playerTwo = new Player("player2", Color.WHITE);
-		controller = new NmmController(gamefield, playerOne, playerTwo);
+		gamefield = new Gamefield(playerOne, playerTwo);
+		controller = new NmmController(gamefield);
 	}
 	
 	@Test
