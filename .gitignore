@@ -1,0 +1,43 @@
+
+######################
+# Java
+######################
+
+*.class
+ 
+# Package Files #
+*.war
+*.ear
+*.db
+ 
+######################
+# IntelliJ IDEA
+######################
+
+.idea
+
+######################
+# Eclipse
+######################
+
+# Directories #
+/build/
+/bin/
+
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.loadpath
+
+######################
+# OS Files 
+######################
+ 
+.DS_Store
