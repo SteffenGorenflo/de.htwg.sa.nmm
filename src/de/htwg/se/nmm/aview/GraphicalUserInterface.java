@@ -47,7 +47,7 @@ public class GraphicalUserInterface extends JFrame implements IObserver, MouseLi
 			add(gamefieldLabel);
 			gamefieldLabel.setBounds(getBounds());
 			System.out.println(System.getProperty("user.dir"));
-			BufferedImage pic = ImageIO.read(new File("gameboard.png"));
+			BufferedImage pic = ImageIO.read(new File("src/resource/gameboard.png"));
 			Image image = pic.getScaledInstance(gameLen, gameLen, Image.SCALE_SMOOTH);
 			ImageIcon icon = new ImageIcon(image);
 			gamefieldLabel.setIcon(icon);
@@ -106,8 +106,8 @@ public class GraphicalUserInterface extends JFrame implements IObserver, MouseLi
 		BufferedImage blackToken;
 		BufferedImage whiteToken;
 		try {
-			blackToken = ImageIO.read(new File("blackToken.png"));
-			whiteToken = ImageIO.read(new File("whiteToken.png"));
+			blackToken = ImageIO.read(new File("src/resource/blackToken.png"));
+			whiteToken = ImageIO.read(new File("src/resource/whiteToken.png"));
 		} catch (IOException e1) {			
 			e1.printStackTrace();
 			return;
