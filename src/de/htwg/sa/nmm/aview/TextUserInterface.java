@@ -1,6 +1,7 @@
 package de.htwg.sa.nmm.aview;
 
 import de.htwg.sa.nmm.controller.INmmController;
+import de.htwg.sa.nmm.persistence.PersistenceStrategy;
 import de.htwg.sa.nmm.util.observer.Event;
 import de.htwg.sa.nmm.util.observer.IObserver;
 
@@ -146,73 +147,113 @@ public final class TextUserInterface implements IObserver {
 	}
 	
 	public void handleUserInput(final String input) {
-				
-		if (input.equals("q")) {
-			
-			print("exit");
-			System.exit(0);
-		}
-		else if (input.equals("r")) {
-			
-			controller.restart();
-			println("restart game");
-			
-		} else if (input.equals("h")) {
-			
-			printHelp();
-			
-		} else if (input.equals("u")) {
-			
-			controller.undo();
-			
-		} else if (input.matches("move\\d\\dto\\d\\d")) {
-			
-			final int strPosSourceGrid = 4;
-			final int strPosSourceIndex = 5;			
-			int sourceGrid = Character.getNumericValue(input.charAt(strPosSourceIndex));
-			int sourceIndex = Character.getNumericValue(input.charAt(strPosSourceGrid));
-			
-			final int strPosDestGrid = 8;
-			final int strPosDestIndex = 9;
-			int destGrid = Character.getNumericValue(input.charAt(strPosDestGrid));
-			int destIndex = Character.getNumericValue(input.charAt(strPosDestIndex));
-			
-			if (controller.valid(sourceGrid, sourceIndex) && controller.valid(destGrid, destIndex)) {
-				controller.moveToken(sourceGrid, sourceIndex, destGrid, destIndex);
-			} else {
-				println("invalid index");
-			}
-			
-		} else if (input.matches("pick\\d\\d")) {
-			
-			final int strPosGrid = 4;
-			final int strPosIndex = 5;
-			int grid = Character.getNumericValue(input.charAt(strPosGrid));
-			int index = Character.getNumericValue(input.charAt(strPosIndex));
-			
-			if (controller.valid(grid, index)) {
-				controller.pickToken(grid, index);
-			} else {
-				println("invalid index");
-			}
-						
-		} else if (input.matches("set\\d\\d")) {
-			
-			final int strPosGrid = 3;
-			final int strPosIndex = 4;
-			int grid = Character.getNumericValue(input.charAt(strPosGrid));
-			int index = Character.getNumericValue(input.charAt(strPosIndex));
-			 
-			if (controller.valid(grid, index)) {					
-				controller.setToken(grid, index);
-			} else {
-				println("invalid index");
-			}
-			
+
+        if (input.equals("q")) {
+
+            print("exit");
+            System.exit(0);
+        } else if (input.equals("r")) {
+
+            controller.restart();
+            println("restart game");
+
+        } else if (input.equals("h")) {
+
+            printHelp();
+
+        } else if (input.equals("u")) {
+
+            controller.undo();
+
+        } else if (input.matches("move\\d\\dto\\d\\d")) {
+
+            final int strPosSourceGrid = 4;
+            final int strPosSourceIndex = 5;
+            int sourceGrid = Character.getNumericValue(input.charAt(strPosSourceIndex));
+            int sourceIndex = Character.getNumericValue(input.charAt(strPosSourceGrid));
+
+            final int strPosDestGrid = 8;
+            final int strPosDestIndex = 9;
+            int destGrid = Character.getNumericValue(input.charAt(strPosDestGrid));
+            int destIndex = Character.getNumericValue(input.charAt(strPosDestIndex));
+
+            if (controller.valid(sourceGrid, sourceIndex) && controller.valid(destGrid, destIndex)) {
+                controller.moveToken(sourceGrid, sourceIndex, destGrid, destIndex);
+            } else {
+                println("invalid index");
+            }
+
+        } else if (input.matches("pick\\d\\d")) {
+
+            final int strPosGrid = 4;
+            final int strPosIndex = 5;
+            int grid = Character.getNumericValue(input.charAt(strPosGrid));
+            int index = Character.getNumericValue(input.charAt(strPosIndex));
+
+            if (controller.valid(grid, index)) {
+                controller.pickToken(grid, index);
+            } else {
+                println("invalid index");
+            }
+
+        } else if (input.matches("set\\d\\d")) {
+
+            final int strPosGrid = 3;
+            final int strPosIndex = 4;
+            int grid = Character.getNumericValue(input.charAt(strPosGrid));
+            int index = Character.getNumericValue(input.charAt(strPosIndex));
+
+            if (controller.valid(grid, index)) {
+                controller.setToken(grid, index);
+            } else {
+                println("invalid index");
+            }
+
+        } else if (input.startsWith("save")) {
+
+            String[] strategyAndGameId = input.replace("save ", "").split(" ");
+            if (strategyAndGameId.length == 2) {
+                String strategy = strategyAndGameId[0];
+                String gameId = strategyAndGameId[1];
+                saveGame(strategy, gameId);
+            } else {
+                println("invalid input, use: save [strategy] gameName; strategy=db4o,couchdb,hibernate");
+            }
+
+
+        } else if (input.startsWith("load")) {
+
+            String[] strategyAndGameId = input.replace("load ", "").split(" ");
+            if (strategyAndGameId.length == 2) {
+                String strategy = strategyAndGameId[0];
+                String gameId = strategyAndGameId[1];
+                loadGame(strategy, gameId);
+            } else {
+                println("invalid input, use: load [strategy] gameName; strategy=db4o,couchdb,hibernate");
+            }
+
 		} else {
 			
 			println("invalid input: " + input);
-			
+
 		}		
 	}
+
+    private void loadGame(String s, String id) {
+        try {
+            PersistenceStrategy strategy = PersistenceStrategy.valueOf(s);
+            controller.loadGame(id, strategy);
+        } catch (IllegalArgumentException ex) {
+            println("invalid input, use: load [strategy] gameName; strategy=db4o,couchdb,hibernate");
+        }
+    }
+
+    private void saveGame(String s, String id) {
+        try {
+            PersistenceStrategy strategy = PersistenceStrategy.valueOf(s);
+            controller.storeGame(id, strategy);
+        } catch (IllegalArgumentException ex) {
+            println("invalid input, use: save [strategy] gameName; strategy=db4o,couchdb,hibernate");
+        }
+    }
 }

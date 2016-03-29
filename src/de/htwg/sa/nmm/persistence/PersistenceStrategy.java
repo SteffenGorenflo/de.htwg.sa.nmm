@@ -1,6 +1,7 @@
 package de.htwg.sa.nmm.persistence;
 
 import de.htwg.sa.nmm.persistence.db4o.db4oDao;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public enum PersistenceStrategy {
 
@@ -12,13 +13,13 @@ public enum PersistenceStrategy {
 
     hibernate {
         public IDAO createDao() {
-            return null;
+            throw new NotImplementedException();
         }
     },
 
     couchdb {
         public IDAO createDao() {
-            return null;
+            throw new NotImplementedException();
         }
     };
 

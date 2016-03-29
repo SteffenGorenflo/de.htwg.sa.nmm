@@ -30,7 +30,7 @@ public final class NineMensMorris {
 
         final Scanner in = new Scanner(System.in);
 		while (in.hasNext()) {
-			tui.handleUserInput(in.next());
+			tui.handleUserInput(in.nextLine());
 		}
 		in.close();
 	}
