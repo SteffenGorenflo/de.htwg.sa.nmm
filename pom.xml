@@ -21,6 +21,13 @@
 			<artifactId>guice</artifactId>
 			<version>${guice.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>db4o</groupId>
+			<artifactId>com.db4o</artifactId>
+			<version>7.2.44</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/db4o-7.2.44.10827-java5.jar</systemPath>
+		</dependency>
 		<!-- Nicht sicher ob das gebraucht wird -->
 		<!-- <dependency> -->
 		<!-- <groupId>com.google.inject.extensions</groupId> -->
