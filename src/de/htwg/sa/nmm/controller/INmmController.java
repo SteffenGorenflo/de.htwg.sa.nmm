@@ -5,6 +5,8 @@ import de.htwg.sa.nmm.persistence.IDAO;
 import de.htwg.sa.nmm.persistence.PersistenceStrategy;
 import de.htwg.sa.nmm.util.observer.IObservable;
 
+import java.util.List;
+
 public interface INmmController extends IObservable {
 	
 	void restart();
@@ -40,4 +42,6 @@ public interface INmmController extends IObservable {
 	boolean storeGame(String id, PersistenceStrategy strategy);
 
 	boolean loadGame(String id, PersistenceStrategy strategy);
+
+	List<String> getGameIds(PersistenceStrategy strategy);
 }

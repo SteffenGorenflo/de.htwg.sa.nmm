@@ -5,6 +5,8 @@ import de.htwg.sa.nmm.persistence.PersistenceStrategy;
 import de.htwg.sa.nmm.util.observer.Event;
 import de.htwg.sa.nmm.util.observer.IObserver;
 
+import java.util.List;
+
 public final class TextUserInterface implements IObserver {	
 	 
 	private INmmController controller;
@@ -220,17 +222,29 @@ public final class TextUserInterface implements IObserver {
                 println("invalid input, use: save [strategy] gameName; strategy=db4o,couchdb,hibernate");
             }
 
-
         } else if (input.startsWith("load")) {
 
-            String[] strategyAndGameId = input.replace("load ", "").split(" ");
-            if (strategyAndGameId.length == 2) {
-                String strategy = strategyAndGameId[0];
-                String gameId = strategyAndGameId[1];
-                loadGame(strategy, gameId);
-            } else {
-                println("invalid input, use: load [strategy] gameName; strategy=db4o,couchdb,hibernate");
-            }
+			String[] strategyAndGameId = input.replace("load ", "").split(" ");
+			if (strategyAndGameId.length == 2) {
+				String strategy = strategyAndGameId[0];
+				String gameId = strategyAndGameId[1];
+				loadGame(strategy, gameId);
+			} else {
+				println("invalid input, use: load [strategy] gameName; strategy=db4o,couchdb,hibernate");
+			}
+
+		} else if (input.startsWith("show")) {
+
+			try {
+				String strStrategy = input.replace("show ", "");
+				PersistenceStrategy strategy = PersistenceStrategy.valueOf(strStrategy);
+				List<String> gameIds = controller.getGameIds(strategy);
+				for (String gameId: gameIds) {
+					println(gameId);
+				}
+			} catch (IllegalArgumentException ex) {
+				println("invalid input, use: load [strategy] gameName; strategy=db4o,couchdb,hibernate");
+			}
 
 		} else {
 			

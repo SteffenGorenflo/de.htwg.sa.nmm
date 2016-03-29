@@ -1,5 +1,8 @@
 package de.htwg.sa.nmm.controller.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import de.htwg.sa.nmm.controller.INmmController;
@@ -15,6 +18,7 @@ import de.htwg.sa.nmm.model.IPlayer.Status;
 import de.htwg.sa.nmm.persistence.IDAO;
 import de.htwg.sa.nmm.persistence.OperationResult;
 import de.htwg.sa.nmm.persistence.PersistenceStrategy;
+import de.htwg.sa.nmm.persistence.db4o.db4oDao;
 import de.htwg.sa.nmm.util.observer.Observable;
 
 public final class NmmController extends Observable implements INmmController {
@@ -23,9 +27,11 @@ public final class NmmController extends Observable implements INmmController {
 	private IGamefield gamefield;
 	private IGameCommand action = null;
 	private Stack<IGameCommand> undoStack = new Stack<>();
+	private Map<PersistenceStrategy, IDAO> daos = new HashMap<>();
 	
 	public NmmController(IGamefield gamefield) {
 		this.gamefield = gamefield;
+		daos.put(PersistenceStrategy.db4o, new db4oDao());
 	}
 			
 	public void restart() {
@@ -183,7 +189,7 @@ public final class NmmController extends Observable implements INmmController {
 
 	@Override
 	public boolean storeGame(String id, PersistenceStrategy strategy) {
-        IDAO dao = strategy.createDao();
+        IDAO dao = daos.get(strategy);
 		gamefield.setId(id);
 		OperationResult result = dao.storeGamefield(gamefield);
 		return result.successful;
@@ -191,7 +197,7 @@ public final class NmmController extends Observable implements INmmController {
 
 	@Override
 	public boolean loadGame(String id, PersistenceStrategy strategy) {
-		IDAO dao = strategy.createDao();
+		IDAO dao = daos.get(strategy);
 		IGamefield newGame = dao.loadGamefiledById(id);
 		if (newGame == null) {
 			return false;
@@ -199,5 +205,11 @@ public final class NmmController extends Observable implements INmmController {
 		gamefield = newGame;
 		undoStack.clear();
 		return true;
+	}
+
+	@Override
+	public List<String> getGameIds(PersistenceStrategy strategy) {
+		IDAO dao = daos.get(strategy);
+		return dao.getAllGamefieldIds();
 	}
 }
