@@ -47,7 +47,6 @@ public class db4oDao implements IDAO {
 			}
 		});
 		
-		System.out.println(game);
 		if (!game.isEmpty())
 			return game.get(0);
 		return null;
