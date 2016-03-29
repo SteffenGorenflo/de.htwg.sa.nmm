@@ -15,7 +15,7 @@ public class db4oDao implements IDAO {
 	}
 
 	@Override
-	public IGamefield loadGamefiledbyId(String id) {
+	public IGamefield loadGamefiledById(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -27,7 +27,7 @@ public class db4oDao implements IDAO {
 	}
 
 	@Override
-	public OperationResult deleteGamefieldbyId(String id) {
+	public OperationResult deleteGamefieldById(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

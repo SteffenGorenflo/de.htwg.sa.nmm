@@ -192,7 +192,7 @@ public final class NmmController extends Observable implements INmmController {
 	@Override
 	public boolean loadGame(String id, PersistenceStrategy strategy) {
 		IDAO dao = strategy.createDao();
-		IGamefield newGame = dao.loadGamefiledbyId(id);
+		IGamefield newGame = dao.loadGamefiledById(id);
 		if (newGame == null) {
 			return false;
 		}
