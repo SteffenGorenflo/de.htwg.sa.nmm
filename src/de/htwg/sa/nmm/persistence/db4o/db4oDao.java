@@ -20,7 +20,6 @@ public class db4oDao implements IDAO {
 
 	public db4oDao() {
 		db = Db4o.openFile(FILENAME);
-		System.out.println("db open");
 	}
 
 	@Override
@@ -29,7 +28,6 @@ public class db4oDao implements IDAO {
 			deleteGamefieldById(gamefield.getId());
 		}
 		try {
-			System.out.println("Spiel wird gespeichert");
 			db.store(gamefield);
 		} catch (Exception e) {
 			return new OperationResult(false, e.getMessage());
