@@ -1,16 +1,15 @@
 package de.htwg.sa.nmm.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.sa.nmm.model.IToken;
 import de.htwg.sa.nmm.model.IPlayer.Status;
 import de.htwg.sa.nmm.model.impl.Player;
-import de.htwg.sa.nmm.model.impl.Token;
 
 public class TestPlayer {
 
