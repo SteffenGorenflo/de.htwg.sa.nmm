@@ -2,7 +2,7 @@ package de.htwg.sa.nmm.persistence;
 
 import java.util.List;
 
-import de.htwg.se.nmm.model.IGamefield;
+import de.htwg.sa.nmm.model.IGamefield;
 
 public interface IDAO {
 

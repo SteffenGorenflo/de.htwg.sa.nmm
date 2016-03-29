@@ -9,7 +9,7 @@ public class NineMensMorrisModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		//bind(IGamefield.class).to(de.htwg.se.nmm.model.impl.Gamefield.class);
+		//bind(IGamefield.class).to(de.htwg.sa.nmm.model.impl.Gamefield.class);
 	}
 
 }

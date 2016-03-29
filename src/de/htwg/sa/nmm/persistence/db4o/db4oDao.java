@@ -4,9 +4,9 @@ import java.util.List;
 
 import de.htwg.sa.nmm.persistence.IDAO;
 import de.htwg.sa.nmm.persistence.OperationResult;
-import de.htwg.se.nmm.model.IGamefield;
+import de.htwg.sa.nmm.model.IGamefield;
 
-public class db4oDao implements IDAO{
+public class db4oDao implements IDAO {
 
 	@Override
 	public OperationResult storeGamefield(IGamefield gamefield) {
