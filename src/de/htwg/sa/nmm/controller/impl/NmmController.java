@@ -12,6 +12,9 @@ import de.htwg.sa.nmm.model.IGamefield;
 import de.htwg.sa.nmm.model.IPlayer;
 import de.htwg.sa.nmm.model.IToken;
 import de.htwg.sa.nmm.model.IPlayer.Status;
+import de.htwg.sa.nmm.persistence.IDAO;
+import de.htwg.sa.nmm.persistence.OperationResult;
+import de.htwg.sa.nmm.persistence.PersistenceStrategy;
 import de.htwg.sa.nmm.util.observer.Observable;
 
 public final class NmmController extends Observable implements INmmController {
@@ -176,5 +179,25 @@ public final class NmmController extends Observable implements INmmController {
 		boolean twoTokensOnField = gamefield.countToken(player) == 2;
 		boolean noTokensLeft = !player.hasToken();
 		return twoTokensOnField && noTokensLeft;
+	}
+
+	@Override
+	public boolean storeGame(String id, PersistenceStrategy strategy) {
+        IDAO dao = strategy.createDao();
+		gamefield.setId(id);
+		OperationResult result = dao.storeGamefield(gamefield);
+		return result.successful;
+	}
+
+	@Override
+	public boolean loadGame(String id, PersistenceStrategy strategy) {
+		IDAO dao = strategy.createDao();
+		IGamefield newGame = dao.loadGamefiledbyId(id);
+		if (newGame == null) {
+			return false;
+		}
+		gamefield = newGame;
+		undoStack.clear();
+		return true;
 	}
 }

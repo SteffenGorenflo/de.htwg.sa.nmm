@@ -1,6 +1,8 @@
 package de.htwg.sa.nmm.controller;
 
 import de.htwg.sa.nmm.model.IPlayer;
+import de.htwg.sa.nmm.persistence.IDAO;
+import de.htwg.sa.nmm.persistence.PersistenceStrategy;
 import de.htwg.sa.nmm.util.observer.IObservable;
 
 public interface INmmController extends IObservable {
@@ -34,4 +36,8 @@ public interface INmmController extends IObservable {
 	boolean undo();
 
 	boolean hasWon(IPlayer player);
+
+	boolean storeGame(String id, PersistenceStrategy strategy);
+
+	boolean loadGame(String id, PersistenceStrategy strategy);
 }
