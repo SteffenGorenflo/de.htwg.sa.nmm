@@ -1,5 +1,6 @@
 package de.htwg.sa.nmm.controller.impl;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,6 @@ public final class NmmController extends Observable implements INmmController {
 	
 	private String status = "Nine Men's Morris";
 	private IGamefield gamefield;
-	private IGameCommand action = null;
 	private Stack<IGameCommand> undoStack = new Stack<>();
 	private Map<PersistenceStrategy, IDAO> daos = new HashMap<>();
 	
@@ -44,7 +44,7 @@ public final class NmmController extends Observable implements INmmController {
 	public boolean pickToken(int grid, int index) {
 		boolean ok = false;
 		IField field = gamefield.field(grid, index);
-		action = new PickTokenCommand(gamefield.getCurrentPlayer(), field);
+		IGameCommand action = new PickTokenCommand(gamefield.getCurrentPlayer(), field);
 		if (action.valid()) {
 			action.execute();
 			ok = true;
@@ -67,7 +67,7 @@ public final class NmmController extends Observable implements INmmController {
 	public boolean setToken(int grid, int index) {
 		boolean ok = false;
 		IField field = gamefield.field(grid, index);
-		action = new SetTokenCommand(gamefield.getCurrentPlayer(), field);
+		IGameCommand action = new SetTokenCommand(gamefield.getCurrentPlayer(), field);
 		if (action.valid()) {
 			action.execute();	
 			ok = true;
@@ -90,7 +90,7 @@ public final class NmmController extends Observable implements INmmController {
 		boolean ok = false;
 		IField source = gamefield.field(sourceGrid, sourceIndex);
 		IField dest   = gamefield.field(destGrid, destIndex);
-		action = new MoveTokenCommand(gamefield.getCurrentPlayer(), source, dest);
+		IGameCommand action = new MoveTokenCommand(gamefield.getCurrentPlayer(), source, dest);
 		if (action.valid()) {
 			action.execute();
 			ok = true;
@@ -129,7 +129,7 @@ public final class NmmController extends Observable implements INmmController {
 		IToken t = gamefield.field(grid, index).getToken();
 		if (t == null) {
 			return "";
-		} else if (t.color() == java.awt.Color.WHITE) {
+		} else if (t.color().equals(Color.WHITE)) {
 			return "WHITE";
 		}
 		return "BLACK";
@@ -189,8 +189,8 @@ public final class NmmController extends Observable implements INmmController {
 
 	@Override
 	public boolean storeGame(String id, PersistenceStrategy strategy) {
-        IDAO dao = daos.get(strategy);
 		gamefield.setId(id);
+        IDAO dao = daos.get(strategy);
 		OperationResult result = dao.storeGamefield(gamefield);
 		return result.successful;
 	}
@@ -204,6 +204,7 @@ public final class NmmController extends Observable implements INmmController {
 		}
 		gamefield = newGame;
 		undoStack.clear();
+		notifyObservers();
 		return true;
 	}
 
