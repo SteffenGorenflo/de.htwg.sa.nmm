@@ -20,7 +20,7 @@ import de.htwg.sa.nmm.persistence.OperationResult;
  * Implementation of DAO Pattern with DB4O - Database
  * 
  * @author Patrick Schmidt
- * @since 29.03.2016
+ * @since 2016-03-29
  */
 public class db4oDao implements IDAO {
 
