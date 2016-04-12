@@ -1,6 +1,5 @@
 package de.htwg.sa.nmm.persistence.hibernate;
 
-import java.awt.Color;
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -8,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import de.htwg.sa.nmm.model.IPlayer.Status;
+import de.htwg.sa.nmm.model.IToken;
 import de.htwg.sa.nmm.model.impl.Player;
 
 /**
@@ -35,7 +35,7 @@ public class HibernatePlayer implements Serializable {
 	 * Tokencolor
 	 */
 	@Column(name = "color")
-	private final Color color = null;
+	private final IToken.Color color = null;
 
 	/**
 	 * Status of the player
@@ -69,7 +69,7 @@ public class HibernatePlayer implements Serializable {
 		return name;
 	}
 
-	public Color getColor() {
+	public IToken.Color getColor() {
 		return color;
 	}
 }

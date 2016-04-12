@@ -3,11 +3,13 @@ package de.htwg.sa.nmm.persistence.hibernate;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import de.htwg.sa.nmm.model.impl.Gamefield;
 
@@ -17,6 +19,8 @@ import de.htwg.sa.nmm.model.impl.Gamefield;
  * @author Patrick Schmidt
  * @since 2016-04-05
  */
+@Entity
+@Table(name = "GAME")
 public class HibernateGamefield implements Serializable {
 
 	/**
