@@ -43,6 +43,6 @@ public interface IPlayer {
 	
 	String name();
 	
-	Color color();
+	IToken.Color color();
 	
 }

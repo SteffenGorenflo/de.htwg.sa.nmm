@@ -1,14 +1,13 @@
 package de.htwg.sa.nmm.controller.impl;
 
-import static org.junit.Assert.*;
-
-import java.awt.Color;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.sa.nmm.controller.impl.NmmController;
 import de.htwg.sa.nmm.model.IPlayer.Status;
+import de.htwg.sa.nmm.model.IToken;
 import de.htwg.sa.nmm.model.impl.Gamefield;
 import de.htwg.sa.nmm.model.impl.Player;
 
@@ -20,8 +19,8 @@ public class TestNmmController {
 	
 	@Before
 	public void initTest() {
-		playerOne = new Player("player1", Color.BLACK);
-		playerTwo = new Player("player2", Color.WHITE);
+		playerOne = new Player("player1", IToken.Color.BLACK);
+		playerTwo = new Player("player2", IToken.Color.WHITE);
 		gamefield = new Gamefield(playerOne, playerTwo);
 		controller = new NmmController(gamefield);
 	}

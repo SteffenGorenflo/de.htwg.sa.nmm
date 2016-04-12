@@ -1,11 +1,10 @@
 package de.htwg.sa.nmm.controller;
 
+import java.util.List;
+
 import de.htwg.sa.nmm.model.IPlayer;
-import de.htwg.sa.nmm.persistence.IDAO;
 import de.htwg.sa.nmm.persistence.PersistenceStrategy;
 import de.htwg.sa.nmm.util.observer.IObservable;
-
-import java.util.List;
 
 public interface INmmController extends IObservable {
 	
