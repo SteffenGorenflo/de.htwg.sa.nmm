@@ -57,7 +57,7 @@ public class HibernateDAO implements IDAO {
 	@Override
 	public boolean init() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

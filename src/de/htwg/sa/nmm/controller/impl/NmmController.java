@@ -21,6 +21,7 @@ import de.htwg.sa.nmm.persistence.OperationResult;
 import de.htwg.sa.nmm.persistence.PersistenceStrategy;
 import de.htwg.sa.nmm.persistence.couchdb.CouchDao;
 import de.htwg.sa.nmm.persistence.db4o.db4oDao;
+import de.htwg.sa.nmm.persistence.hibernate.util.HibernateDAO;
 import de.htwg.sa.nmm.util.observer.Observable;
 
 public final class NmmController extends Observable implements INmmController {
@@ -39,6 +40,10 @@ public final class NmmController extends Observable implements INmmController {
 		IDAO couchdb = new CouchDao();
 		if (couchdb.init()) {
 			daos.put(PersistenceStrategy.couchdb, couchdb);
+		}
+		IDAO hibernate = new HibernateDAO();
+		if (hibernate.init()) {
+			daos.put(PersistenceStrategy.hibernate, hibernate);
 		}
 	}
 			
