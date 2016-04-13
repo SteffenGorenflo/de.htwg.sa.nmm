@@ -73,8 +73,8 @@ public class HibernateGamefield implements Serializable {
 	/**
 	 * Default Constructor for Hibernate
 	 */
-	protected HibernateGamefield() {
-		// do nothing just for Hibernate
+	public HibernateGamefield() {
+	
 	}
 
 	public int getId() {
