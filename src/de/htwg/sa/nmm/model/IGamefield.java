@@ -49,6 +49,10 @@ public interface IGamefield {
 	 */
 	String getName();
 
+	IField[][] getGamefield();
+
+	void setGamefield(IField[][] field);
+
 	/**
 	 * Set the name of the Game
 	 * 
