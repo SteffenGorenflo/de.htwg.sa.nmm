@@ -32,7 +32,7 @@ public final class Gamefield implements IGamefield {
 	/**
 	 * Field matrix to address the specific positions
 	 */
-	private Field[][] gamefield = null;
+	private IField[][] gamefield = null;
 
 	/**
 	 * Variable to store player1
@@ -75,12 +75,20 @@ public final class Gamefield implements IGamefield {
 		}
 	}
 
+	public void setGamefield(IField[][] gamefield) {
+		this.gamefield = gamefield;
+	}
+
+	public IField[][] getGamefield() {
+		return gamefield;
+	}
+
 	/**
 	 * Returns a specific postition of {@link Gamefield#gamefield}
 	 * 
 	 * @return {@link Field}
 	 */
-	public Field field(int grid, int index) {
+	public IField field(int grid, int index) {
 		return gamefield[grid][index];
 	}
 
@@ -93,7 +101,7 @@ public final class Gamefield implements IGamefield {
 		int countToken = 0;
 		for (int grid = 0; grid < GRIDS; grid++) {
 			for (int index = 0; index < INDEX; index++) {
-				Field field = gamefield[grid][index];
+				IField field = gamefield[grid][index];
 				if (field.hasToken() && field.getToken().color().equals(player.color())) {
 					countToken++;
 				}

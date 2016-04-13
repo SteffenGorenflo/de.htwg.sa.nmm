@@ -25,7 +25,7 @@ public class TestGamefield {
 	public void testInit() {
 		Player p = new Player("name", IToken.Color.BLACK);
 		IToken t = p.takeToken();
-		Field f = gamefield.field(0, 0);
+		IField f = gamefield.field(0, 0);
 		f.setToken(t);
 		assertTrue(gamefield.countToken(p) == 1);
 		gamefield.init();
@@ -34,7 +34,7 @@ public class TestGamefield {
 
 	@Test
 	public void testField() {
-		Field f = gamefield.field(0, 0);
+		IField f = gamefield.field(0, 0);
 		assertTrue(f != null);
 	}
 

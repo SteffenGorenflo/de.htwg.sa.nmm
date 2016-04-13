@@ -19,6 +19,7 @@ import de.htwg.sa.nmm.model.IPlayer.Status;
 import de.htwg.sa.nmm.persistence.IDAO;
 import de.htwg.sa.nmm.persistence.OperationResult;
 import de.htwg.sa.nmm.persistence.PersistenceStrategy;
+import de.htwg.sa.nmm.persistence.couchdb.CouchDao;
 import de.htwg.sa.nmm.persistence.db4o.db4oDao;
 import de.htwg.sa.nmm.util.observer.Observable;
 
@@ -31,7 +32,14 @@ public final class NmmController extends Observable implements INmmController {
 	
 	public NmmController(IGamefield gamefield) {
 		this.gamefield = gamefield;
-		daos.put(PersistenceStrategy.db4o, new db4oDao());
+		IDAO db4o = new db4oDao();
+		if (db4o.init()) {
+			daos.put(PersistenceStrategy.db4o, db4o);
+		}
+		IDAO couchdb = new CouchDao();
+		if (couchdb.init()) {
+			daos.put(PersistenceStrategy.couchdb, couchdb);
+		}
 	}
 			
 	public void restart() {
