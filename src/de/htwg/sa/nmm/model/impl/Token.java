@@ -1,7 +1,5 @@
 package de.htwg.sa.nmm.model.impl;
 
-import java.awt.Color;
-
 import de.htwg.sa.nmm.model.IToken;
 
 public final class Token implements IToken {
