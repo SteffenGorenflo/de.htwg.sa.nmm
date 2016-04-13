@@ -32,7 +32,9 @@ public interface IPlayer {
 	boolean isStatus(Status status);
 	
 	void setStatus(Status status);
-	
+
+	void setToken(int token);
+
 	IToken takeToken();
 	
 	boolean hasToken();

@@ -43,6 +43,10 @@ public final class Player implements IPlayer {
 		}
 		return t;		
 	}
+
+	public void setToken(int token) {
+		this.token = token;
+	}
 	
 	public boolean hasToken() {
 		return token > 0;

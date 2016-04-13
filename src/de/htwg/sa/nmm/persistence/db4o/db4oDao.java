@@ -47,6 +47,14 @@ public class db4oDao implements IDAO {
 	}
 
 	/**
+	 * initialize db4o
+	 */
+	@Override
+	public boolean init() {
+		return true;
+	}
+
+	/**
 	 * Store Gamefield in db4o Database
 	 * 
 	 * @see de.htwg.sa.nmm.persistence.IDAO#storeGamefield(IGamefield)
