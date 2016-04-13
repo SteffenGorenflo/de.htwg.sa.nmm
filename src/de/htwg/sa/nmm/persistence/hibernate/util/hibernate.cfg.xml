@@ -13,7 +13,8 @@
 		<property name="current_session_context_class">thread</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<property name="show_sql">false</property>
-		<mapping class="de.htwg.sudoku.persistence.hibernate.PersistentCell" />
-		<mapping class="de.htwg.sudoku.persistence.hibernate.PersistentGrid" />
+		<mapping class="de.htw.sa.nmm.persistence.hibernate.HibernateField" />
+		<mapping class="de.htw.sa.nmm.persistence.hibernate.HibernateGamefield" />
+		<mapping class="de.htw.sa.nmm.persistence.hibernate.HibernatePlayer" />
 	</session-factory>
 </hibernate-configuration>
