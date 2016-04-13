@@ -1,9 +1,13 @@
 package de.htwg.sa.nmm.persistence.couchdb;
 
+import de.htwg.sa.nmm.model.IField;
 import de.htwg.sa.nmm.model.IGamefield;
 import de.htwg.sa.nmm.model.IPlayer;
+import de.htwg.sa.nmm.model.IToken;
+import de.htwg.sa.nmm.model.impl.Field;
 import de.htwg.sa.nmm.model.impl.Gamefield;
 import de.htwg.sa.nmm.model.impl.Player;
+import de.htwg.sa.nmm.model.impl.Token;
 import de.htwg.sa.nmm.persistence.IDAO;
 import de.htwg.sa.nmm.persistence.OperationResult;
 import org.ektorp.CouchDbConnector;
@@ -38,9 +42,9 @@ public class CouchDao implements IDAO {
     @Override
     public OperationResult storeGamefield(IGamefield gamefield) {
         if (containsGamefield(gamefield.getName())) {
-            db.update(objectToDocument(gamefield));
+            db.update(CouchGamefieldDocument.toDocument(gamefield));
         } else {
-            db.create(objectToDocument(gamefield));
+            db.create(CouchGamefieldDocument.toDocument(gamefield));
         }
         return new OperationResult(true);
     }
@@ -51,7 +55,7 @@ public class CouchDao implements IDAO {
         if (gamefield == null) {
             return null;
         }
-        return documentToObject(gamefield);
+        return gamefield.toGamefield();
     }
 
     @Override
@@ -65,37 +69,8 @@ public class CouchDao implements IDAO {
         if (!containsGamefield(name)) {
             return new OperationResult(false, "no such game: " + name);
         }
-        db.delete(objectToDocument(loadGamefiledByName(name)));
+        db.delete(CouchGamefieldDocument.toDocument(loadGamefiledByName(name)));
         return new OperationResult(true);
-    }
-
-    private CouchPlayerDocument objectToDocument(IPlayer iplayer) {
-        CouchPlayerDocument document = new CouchPlayerDocument();
-        document.setColor(iplayer.color());
-        document.setName(iplayer.name());
-        document.setToken(iplayer.token());
-        return document;
-    }
-
-    private CouchGamefieldDocument objectToDocument(IGamefield igamefield) {
-        CouchGamefieldDocument document = new CouchGamefieldDocument();
-        document.setPlayer1(objectToDocument(igamefield.getCurrentPlayer()));
-        document.setPlayer2(objectToDocument(igamefield.getOtherPlayer()));
-        document.setCurrentPlayer(objectToDocument(igamefield.getCurrentPlayer()));
-        return document;
-    }
-
-    private IPlayer documentToObject(CouchPlayerDocument couchPlayerDocument) {
-        IPlayer player = new Player(couchPlayerDocument.getName(), couchPlayerDocument.getColor());
-        player.setStatus(couchPlayerDocument.getStatus());
-        return player;
-    }
-
-    private IGamefield documentToObject(CouchGamefieldDocument couchGamefieldDocument) {
-        IPlayer player1 = documentToObject(couchGamefieldDocument.getPlayer1());
-        IPlayer player2 = documentToObject(couchGamefieldDocument.getPlayer2());
-        IGamefield gamefield = new Gamefield(player1, player2);
-        return gamefield;
     }
 
     private boolean containsGamefield(String name) {
