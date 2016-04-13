@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import de.htwg.sa.nmm.model.IGamefield;
 import de.htwg.sa.nmm.model.impl.Gamefield;
 
 /**
@@ -40,89 +41,44 @@ public class HibernateGamefield implements Serializable {
 	 * Name of the Game. Needed to identify the game in db4o database
 	 */
 	@Column(name = "name")
-	private String name = "";
+	String name = "";
 
 	/**
 	 * Field matrix to address the specific positions
 	 */
 	@OneToOne
 	@JoinColumn(name = "field")
-	private HibernateField[][] gamefield = null;
+	HibernateField[][] gamefield = null;
 
 	/**
 	 * Variable to store player1
 	 */
 	@OneToOne
 	@JoinColumn(name = "player_one")
-	private HibernatePlayer player1;
+	HibernatePlayer player1;
 
 	/**
 	 * Variable to store player2
 	 */
 	@OneToOne
 	@JoinColumn(name = "player_two")
-	private HibernatePlayer player2;
-
-	/**
-	 * Variable to store the current player
-	 */
-	@OneToOne
-	@JoinColumn(name = "current_player")
-	private HibernatePlayer currentPlayer;
+	HibernatePlayer player2;
 
 	/**
 	 * Default Constructor for Hibernate
 	 */
 	public HibernateGamefield() {
-	
+
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public HibernateField[][] getGamefield() {
-		return gamefield;
-	}
-
-	public void setGamefield(HibernateField[][] gamefield) {
-		this.gamefield = gamefield;
-	}
-
-	public HibernatePlayer getPlayer1() {
-		return player1;
-	}
-
-	public void setPlayer1(HibernatePlayer player1) {
-		this.player1 = player1;
-	}
-
-	public HibernatePlayer getPlayer2() {
-		return player2;
-	}
-
-	public void setPlayer2(HibernatePlayer player2) {
-		this.player2 = player2;
-	}
-
-	public HibernatePlayer getCurrentPlayer() {
-		return currentPlayer;
-	}
-
-	public void setCurrentPlayer(HibernatePlayer currentPlayer) {
-		this.currentPlayer = currentPlayer;
-	}
+//	static HibernateGamefield transformToHibernate(IGamefield gamefield) {
+//		HibernateGamefield game = new HibernateGamefield();
+//
+//		game.name = gamefield.getName();
+//		// game.gamefield = gamefield.get
+//		game.player1 = HibernatePlayer.transformToHibernate(gamefield.getCurrentPlayer());
+//		game.player2 = HibernatePlayer.transformToHibernate(gamefield.getOtherPlayer());
+//		
+//	}
 
 }

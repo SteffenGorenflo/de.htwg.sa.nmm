@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import de.htwg.sa.nmm.model.IPlayer;
 import de.htwg.sa.nmm.model.IPlayer.Status;
 import de.htwg.sa.nmm.model.IToken;
 import de.htwg.sa.nmm.model.impl.Player;
@@ -29,47 +30,43 @@ public class HibernatePlayer implements Serializable {
 	 * Name of the player
 	 */
 	@Column(name = "playername")
-	private final String name = "";
+	String name = "";
 
 	/**
 	 * Tokencolor
 	 */
 	@Column(name = "color")
-	private final IToken.Color color = null;
+	IToken.Color color = null;
 
 	/**
 	 * Status of the player
 	 */
 	@Column(name = "status")
-	private Status status;
+	Status status;
 
 	/**
 	 * Number of tokens player can place
 	 */
 	@Column(name = "token")
-	private int token;
-
-	public Status getStatus() {
-		return status;
+	int token;
+	
+	static HibernatePlayer transformToHibernate(IPlayer player) {
+		HibernatePlayer p = new HibernatePlayer();
+		
+		p.name = player.name();
+		p.color = player.color();
+		p.status = player.getStatus();
+		p.token = player.token();
+		
+		return p;
 	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
-	public int getToken() {
-		return token;
-	}
-
-	public void setToken(int token) {
-		this.token = token;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public IToken.Color getColor() {
-		return color;
+	
+	static IPlayer transformFromHibernate(HibernatePlayer player) {
+		Player p = new Player(player.name, player.color);
+		
+		p.setStatus(player.status);
+		p.setToken(player.token);
+		
+		return p;
 	}
 }
