@@ -1,9 +1,5 @@
 package de.htwg.sa.nmm.model;
 
-import java.awt.Color;
-
-import de.htwg.sa.nmm.model.IToken;
-
 /**
  * Interface for a player
  * 
