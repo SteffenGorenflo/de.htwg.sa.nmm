@@ -1,35 +1,32 @@
 package de.htwg.sa.nmm.persistence.couchdb;
 
+import de.htwg.sa.nmm.model.IField;
+import de.htwg.sa.nmm.model.impl.Field;
 import org.ektorp.support.CouchDbDocument;
 
-public class CouchFieldDocument extends CouchDbDocument {
+class CouchFieldDocument extends CouchDbDocument {
 
-    int grid;
-    int index;
-    CouchTokenDocument token;
+    private CouchFieldDocument() { }
 
-    public void setGrid(int grid) {
-        this.grid = grid;
+    public int grid;
+    public int index;
+    public CouchTokenDocument token;
+
+    public static CouchFieldDocument toDocument(IField field) {
+        if (field == null) {
+            return null;
+        }
+        CouchFieldDocument document = new CouchFieldDocument();
+        document.grid = field.grid();
+        document.index = field.index();
+        document.token = CouchTokenDocument.toDocument(field.getToken());
+        return document;
     }
 
-    public int getGrid() {
-        return grid;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setToken(CouchTokenDocument token) {
-        this.token = token;
-    }
-
-    public CouchTokenDocument getToken() {
-        return token;
+    public IField toField() {
+        IField field = new Field(grid, index);
+        field.setToken(token.toToken());
+        return field;
     }
 
 }
