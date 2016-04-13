@@ -2,7 +2,6 @@ package de.htwg.sa.nmm.persistence.couchdb;
 
 import de.htwg.sa.nmm.model.IField;
 import de.htwg.sa.nmm.model.IGamefield;
-import de.htwg.sa.nmm.model.IPlayer;
 import de.htwg.sa.nmm.model.impl.Gamefield;
 import org.ektorp.support.CouchDbDocument;
 
@@ -10,7 +9,6 @@ class CouchGamefieldDocument extends CouchDbDocument {
 
     private CouchGamefieldDocument() {}
 
-    public String name;
     public CouchPlayerDocument player1;
     public CouchPlayerDocument player2;
     public CouchPlayerDocument currentPlayer;
@@ -26,7 +24,7 @@ class CouchGamefieldDocument extends CouchDbDocument {
             return null;
         }
         CouchGamefieldDocument doc = new CouchGamefieldDocument();
-        doc.name = gamefield.getName();
+        doc.setId(gamefield.getName());
         doc.grids = gamefield.grids();
         doc.indexes = gamefield.index();
         doc.currentPlayer = CouchPlayerDocument.toDocument(gamefield.getCurrentPlayer());
@@ -65,7 +63,7 @@ class CouchGamefieldDocument extends CouchDbDocument {
         }
 
         IGamefield gamefield = new Gamefield(player1.toPlayer(), player2.toPlayer());
-        gamefield.setName(name);
+        gamefield.setName(getId());
         gamefield.setGamefield(fields);
         return gamefield;
     }

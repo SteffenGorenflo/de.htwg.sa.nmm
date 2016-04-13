@@ -12,6 +12,7 @@ import de.htwg.sa.nmm.persistence.IDAO;
 import de.htwg.sa.nmm.persistence.OperationResult;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
+import org.ektorp.ViewQuery;
 import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
@@ -60,6 +61,11 @@ public class CouchDao implements IDAO {
 
     @Override
     public List<String> getAllGamefieldNames() {
+
+        ViewQuery query = new ViewQuery()
+                                .allDocs()
+                                .includeDocs(true);
+
         List<String> gamefieldNames = new LinkedList<>();
         return gamefieldNames;
     }
