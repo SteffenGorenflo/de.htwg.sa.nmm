@@ -67,6 +67,9 @@ public class CouchDao implements IDAO {
                                 .includeDocs(true);
 
         List<String> gamefieldNames = new LinkedList<>();
+        for (CouchGamefieldDocument gamefield: db.queryView(query, CouchGamefieldDocument.class)) {
+            gamefieldNames.add(gamefield.getId());
+        }
         return gamefieldNames;
     }
 
