@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.sa.nmm.model.impl.Field;
 import de.htwg.sa.nmm.model.impl.Gamefield;
 import de.htwg.sa.nmm.model.impl.Player;
 import de.htwg.sa.nmm.model.impl.Token;
