@@ -53,6 +53,11 @@
 			<artifactId>org.ektorp</artifactId>
 			<version>${ektorp.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.21</version>
+		</dependency>
 
 		<!-- Nicht sicher ob das gebraucht wird -->
 		<!-- <dependency> -->
