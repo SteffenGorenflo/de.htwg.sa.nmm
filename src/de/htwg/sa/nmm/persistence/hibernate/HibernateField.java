@@ -6,7 +6,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import de.htwg.sa.nmm.model.IField;
 import de.htwg.sa.nmm.model.IToken;
+import de.htwg.sa.nmm.model.impl.Field;
 
 /**
  * Field class for Hibernate
@@ -22,72 +24,36 @@ public class HibernateField {
 	 * Number of Grid
 	 */
 	@Column(name = "grid")
-	private int grid;
+	int grid;
 
 	/**
 	 * Index of Grid
 	 */
 	@Column(name = "index")
-	private int index;
+	int index;
 	
 	/**
 	 * placed token
 	 */
 	@OneToOne
 	@JoinColumn(name = "token")
-	private IToken token;
+	IToken token;
 
-	/**
-	 * Returns the number of the grid
-	 * 
-	 * @return grid
-	 */
-	public int getGrid() {
-		return grid;
+	static HibernateField transformToHibernate(IField field) {
+		HibernateField f = new HibernateField();
+		
+		f.grid = field.grid();
+		f.index = field.index();
+		f.token = field.getToken();
+		
+		return f;
 	}
-
-	/**
-	 * Set the number of the grid
-	 * 
-	 * @param grid
-	 */
-	public void setGrid(int grid) {
-		this.grid = grid;
-	}
-
-	/**
-	 * Get the index (postition of the grid)
-	 * 
-	 * @return
-	 */
-	public int getIndex() {
-		return index;
-	}
-
-	/**
-	 * Set the index of the grid
-	 * 
-	 * @param index
-	 */
-	public void setIndex(int index) {
-		this.index = index;
-	}
-
-	/**
-	 * Get the Token 
-	 * 
-	 * @return token
-	 */
-	public IToken getToken() {
-		return token;
-	}
-
-	/**
-	 * Set the Token of the specific position
-	 * 
-	 * @param token
-	 */
-	public void setToken(IToken token) {
-		this.token = token;
+	
+	static IField transformFromHibernate(HibernateField field) {
+		Field f = new Field(field.grid, field.index);
+		
+		f.setToken(field.token);
+		
+		return f;
 	}
 }

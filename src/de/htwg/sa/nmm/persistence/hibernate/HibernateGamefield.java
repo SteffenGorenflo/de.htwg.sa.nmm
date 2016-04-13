@@ -11,7 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import de.htwg.sa.nmm.model.IField;
 import de.htwg.sa.nmm.model.IGamefield;
+import de.htwg.sa.nmm.model.IPlayer;
+import de.htwg.sa.nmm.model.impl.Field;
 import de.htwg.sa.nmm.model.impl.Gamefield;
 
 /**
@@ -71,14 +74,43 @@ public class HibernateGamefield implements Serializable {
 
 	}
 
-//	static HibernateGamefield transformToHibernate(IGamefield gamefield) {
-//		HibernateGamefield game = new HibernateGamefield();
-//
-//		game.name = gamefield.getName();
-//		// game.gamefield = gamefield.get
-//		game.player1 = HibernatePlayer.transformToHibernate(gamefield.getCurrentPlayer());
-//		game.player2 = HibernatePlayer.transformToHibernate(gamefield.getOtherPlayer());
-//		
-//	}
+	public static HibernateGamefield transformToHibernate(IGamefield gamefield) {
+		HibernateGamefield game = new HibernateGamefield();
+
+		game.name = gamefield.getName();
+		game.player1 = HibernatePlayer.transformToHibernate(gamefield.getCurrentPlayer());
+		game.player2 = HibernatePlayer.transformToHibernate(gamefield.getOtherPlayer());
+
+		IField[][] field = gamefield.getGamefield();
+		HibernateField[][] hiber = new HibernateField[gamefield.grids()][gamefield.index()];
+		for (int g = 0; g < gamefield.grids(); g++) {
+			for (int i = 0; i < gamefield.index(); i++) {
+				hiber[g][i] = HibernateField.transformToHibernate(field[g][i]);
+			}
+		}
+		game.gamefield = hiber;
+
+		return game;
+	}
+
+	public static IGamefield transformFromHibernate(HibernateGamefield gamefield) {
+		IPlayer p1 = HibernatePlayer.transformFromHibernate(gamefield.player1);
+		IPlayer p2 = HibernatePlayer.transformFromHibernate(gamefield.player2);
+
+		IGamefield game = new Gamefield(p1, p2);
+		
+		game.setName(gamefield.name);
+		
+		HibernateField[][] hiber = gamefield.gamefield;
+		IField[][] field = new Field[game.grids()][game.index()];
+		for (int g = 0; g < game.grids(); g++) {
+			for (int i = 0; i < game.index(); i++) {
+				field[g][i] = HibernateField.transformFromHibernate(hiber[g][i]);
+			}
+		}
+		game.setGamefield(field);
+		
+		return game;
+	}
 
 }
