@@ -1,14 +1,13 @@
 package de.htwg.sa.nmm.controller.gameaction;
 
-import static org.junit.Assert.*;
-
-import java.awt.Color;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import de.htwg.sa.nmm.controller.commands.PickTokenCommand;
-import de.htwg.sa.nmm.model.IToken;
 import de.htwg.sa.nmm.model.IPlayer.Status;
+import de.htwg.sa.nmm.model.IToken;
 import de.htwg.sa.nmm.model.impl.Field;
 import de.htwg.sa.nmm.model.impl.Player;
 import de.htwg.sa.nmm.model.impl.Token;
@@ -19,7 +18,7 @@ public class TestPickTokenAction {
 	
 	@Test
 	public void testPickTokenAction() {
-		Player player = new Player("player", Color.BLACK);
+		Player player = new Player("player", IToken.Color.BLACK);
 		Field field = new Field(0, 0);
 		action = new PickTokenCommand(player, field);
 	}
@@ -27,7 +26,7 @@ public class TestPickTokenAction {
 	@Test
 	public void testValid() {
 		
-		Player player = new Player("Player", Color.BLACK);
+		Player player = new Player("Player", IToken.Color.BLACK);
 		Field field = new Field(0, 0);
 		action = new PickTokenCommand(player, field);
 		
@@ -44,16 +43,16 @@ public class TestPickTokenAction {
 		assertFalse(action.valid());
 		
 		/* take another token is okay */
-		t = new Token(Color.WHITE);
+		t = new Token(IToken.Color.WHITE);
 		field.setToken(t);
 		assertTrue(action.valid());
 	}
 
 	@Test
 	public void testExecute() {
-		Player player = new Player("player", Color.BLACK);
+		Player player = new Player("player", IToken.Color.BLACK);
 		Field field = new Field(0, 0);
-		field.setToken(new Token(Color.WHITE));
+		field.setToken(new Token(IToken.Color.WHITE));
 		player.setStatus(Status.PickToken);
 		action = new PickTokenCommand(player, field);
 		assert(action.valid());

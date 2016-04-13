@@ -1,7 +1,5 @@
 package de.htwg.sa.nmm.model.impl;
 
-import java.awt.Color;
-
 import de.htwg.sa.nmm.model.IPlayer;
 import de.htwg.sa.nmm.model.IToken;
 
@@ -9,12 +7,12 @@ public final class Player implements IPlayer {
 		
 	private static final int STARTTOKEN = 9;
 	private final String name;
-	private final Color color;	
+	private final IToken.Color color;	
 	private Status status;	
 	private int token;
 	 	
 	//@Inject		
-	public Player(String name, Color color) {		
+	public Player(String name, IToken.Color color) {		
 		this.name = name;
 		this.color = color;
 		init();		
@@ -58,7 +56,7 @@ public final class Player implements IPlayer {
 		return name;
 	}
 	
-	public Color color() {
+	public IToken.Color color() {
 		return color;
 	}
 			

@@ -189,7 +189,7 @@ public final class NmmController extends Observable implements INmmController {
 
 	@Override
 	public boolean storeGame(String id, PersistenceStrategy strategy) {
-		gamefield.setId(id);
+		gamefield.setName(id);
         IDAO dao = daos.get(strategy);
 		OperationResult result = dao.storeGamefield(gamefield);
 		return result.successful;
@@ -198,7 +198,7 @@ public final class NmmController extends Observable implements INmmController {
 	@Override
 	public boolean loadGame(String id, PersistenceStrategy strategy) {
 		IDAO dao = daos.get(strategy);
-		IGamefield newGame = dao.loadGamefiledById(id);
+		IGamefield newGame = dao.loadGamefiledByName(id);
 		if (newGame == null) {
 			return false;
 		}
@@ -211,6 +211,6 @@ public final class NmmController extends Observable implements INmmController {
 	@Override
 	public List<String> getGameIds(PersistenceStrategy strategy) {
 		IDAO dao = daos.get(strategy);
-		return dao.getAllGamefieldIds();
+		return dao.getAllGamefieldNames();
 	}
 }

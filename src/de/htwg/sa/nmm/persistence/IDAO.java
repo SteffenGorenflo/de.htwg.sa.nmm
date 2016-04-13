@@ -8,9 +8,9 @@ public interface IDAO {
 
 	OperationResult storeGamefield(IGamefield gamefield);
 	
-	IGamefield loadGamefiledById(String id);
+	IGamefield loadGamefiledByName(String name);
 	
-	List<String> getAllGamefieldIds();
+	List<String> getAllGamefieldNames();
 	
-	OperationResult deleteGamefieldById(String id);
+	OperationResult deleteGamefieldByName(String name);
 }

@@ -1,8 +1,7 @@
 package de.htwg.sa.nmm.model;
 
-import static org.junit.Assert.*;
-
-import java.awt.Color;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +46,7 @@ public class TestField {
 	@Test
 	public void testGetToken() {
 		assertTrue(field.getToken() == null);
-		Token t = new Token(Color.BLACK);
+		Token t = new Token(IToken.Color.BLACK);
 		field.setToken(t);
 		assertTrue(field.getToken() == t);
 	}
@@ -55,7 +54,7 @@ public class TestField {
 	@Test
 	public void testHasToken() {
 		assertFalse(field.hasToken());
-		Token t = new Token(Color.BLACK);
+		Token t = new Token(IToken.Color.BLACK);
 		field.setToken(t);
 		assertTrue(field.hasToken());
 		field.setToken(null);
@@ -64,7 +63,7 @@ public class TestField {
 
 	@Test
 	public void testSetToken() {
-		Token t = new Token(Color.BLACK);
+		Token t = new Token(IToken.Color.BLACK);
 		field.setToken(t);
 		assertTrue(field.getToken() == t);
 	}

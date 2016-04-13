@@ -3,8 +3,6 @@ package de.htwg.sa.nmm.model;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.awt.Color;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,14 +15,14 @@ public class TestPlayer {
 	
 	@Before
 	public void initTest() {
-		player = new Player("player's name", Color.BLACK);
+		player = new Player("player's name", IToken.Color.BLACK);
 	}
 	
 	@Test
 	public void testPlayer() {
-		player = new Player("name", Color.WHITE);
+		player = new Player("name", IToken.Color.WHITE);
 		assertTrue(player.name().equals("name"));
-		assertTrue(player.color().equals(Color.WHITE));
+		assertTrue(player.color().equals(IToken.Color.WHITE));
 		assertTrue(player.hasToken());
 	}
 
@@ -113,18 +111,18 @@ public class TestPlayer {
 
 	@Test
 	public void testColor() {
-		assertTrue(player.color().equals(Color.BLACK));
+		assertTrue(player.color().equals(IToken.Color.BLACK));
 	}
 
 	@Test
 	public void testEqualsObject() {
 		
 		// same color
-		Player same = new Player("player's name", Color.BLACK);
+		Player same = new Player("player's name", IToken.Color.BLACK);
 		assertTrue(player.equals(same));	
 		
 		// other color
-		Player other = new Player("player's name", Color.WHITE);
+		Player other = new Player("player's name", IToken.Color.WHITE);
 		assertFalse(player.equals(other));
 		
 		// just allow to compare with other player
@@ -133,8 +131,8 @@ public class TestPlayer {
 	
 	@Test
 	public void testHashCode() {
-		Player p1 = new Player("max", Color.BLACK);
-		Player p2 = new Player("moritz", Color.BLACK);
+		Player p1 = new Player("max", IToken.Color.BLACK);
+		Player p2 = new Player("moritz", IToken.Color.BLACK);
 		assertTrue(p1.hashCode() == p2.hashCode());
 	}
 }

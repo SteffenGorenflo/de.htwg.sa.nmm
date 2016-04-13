@@ -1,13 +1,11 @@
 package de.htwg.sa.nmm.model;
 
-import static org.junit.Assert.*;
-
-import java.awt.Color;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.sa.nmm.model.IToken;
 import de.htwg.sa.nmm.model.impl.Field;
 import de.htwg.sa.nmm.model.impl.Gamefield;
 import de.htwg.sa.nmm.model.impl.Player;
@@ -19,13 +17,13 @@ public class TestGamefield {
 	
 	@Before
 	public void initTest() {
-		gamefield = new Gamefield(new Player("P1", Color.WHITE),
-				new Player("P2", Color.BLACK));
+		gamefield = new Gamefield(new Player("P1", IToken.Color.WHITE),
+				new Player("P2", IToken.Color.BLACK));
 	}
 
 	@Test
 	public void testInit() {
-		Player p = new Player("name", Color.BLACK);
+		Player p = new Player("name", IToken.Color.BLACK);
 		IToken t = p.takeToken();
 		Field f = gamefield.field(0, 0);
 		f.setToken(t);
@@ -42,8 +40,8 @@ public class TestGamefield {
 
 	@Test
 	public void testCountToken() {
-		Player p1 = new Player("p1", Color.BLACK);
-		Player p2 = new Player("p2", Color.WHITE);
+		Player p1 = new Player("p1", IToken.Color.BLACK);
+		Player p2 = new Player("p2", IToken.Color.WHITE);
 		assertTrue(gamefield.countToken(p1) == 0);
 		assertTrue(gamefield.countToken(p2) == 0);
 		gamefield.field(0, 0).setToken(p1.takeToken());
@@ -59,8 +57,8 @@ public class TestGamefield {
 
 	@Test
 	public void testMill() {		
-		Token tBlack = new Token(Color.BLACK);
-		Token tWhite = new Token(Color.WHITE);
+		Token tBlack = new Token(IToken.Color.BLACK);
+		Token tWhite = new Token(IToken.Color.WHITE);
 		 
 		// create black mill
 		gamefield.field(0, 0).setToken(tBlack);

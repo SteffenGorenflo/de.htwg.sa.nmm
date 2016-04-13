@@ -1,9 +1,12 @@
 package de.htwg.sa.nmm.model;
 
-import java.awt.Color;
-
 public interface IToken {
 
+	enum Color {
+		BLACK,
+		WHITE;
+	}
+	
 	Color color();
 	
 }

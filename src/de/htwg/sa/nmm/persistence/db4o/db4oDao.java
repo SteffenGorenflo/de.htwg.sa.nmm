@@ -20,7 +20,7 @@ import de.htwg.sa.nmm.persistence.OperationResult;
  * Implementation of DAO Pattern with DB4O - Database
  * 
  * @author Patrick Schmidt
- * @since 29.03.2016
+ * @since 2016-03-29
  */
 public class db4oDao implements IDAO {
 
@@ -54,10 +54,10 @@ public class db4oDao implements IDAO {
 	@Override
 	public OperationResult storeGamefield(IGamefield gamefield) {
 
-		LOG.info("Saving Game [" + gamefield.getId() + "]...");
+		LOG.info("Saving Game [" + gamefield.getName() + "]...");
 
-		if (null != loadGamefiledById(gamefield.getId())) {
-			deleteGamefieldById(gamefield.getId());
+		if (null != loadGamefiledByName(gamefield.getName())) {
+			deleteGamefieldByName(gamefield.getName());
 		}
 		try {
 			db = Db4o.openFile(FILENAME);
@@ -70,18 +70,18 @@ public class db4oDao implements IDAO {
 			LOG.error(e.getMessage());
 			return new OperationResult(false, "Ups! Da ist was falsch gelaufen.");
 		}
-		LOG.info("Game [" + gamefield.getId() + "] successfully saved.");
+		LOG.info("Game [" + gamefield.getName() + "] successfully saved.");
 		return new OperationResult(true);
 	}
 
 	/**
 	 * Load Gamefield by Id from db4o Database
 	 * 
-	 * @see de.htwg.sa.nmm.persistence.IDAO#loadGamefiledById(String)
+	 * @see de.htwg.sa.nmm.persistence.IDAO#loadGamefiledByName(String)
 	 */
 	@Override
-	public IGamefield loadGamefiledById(final String id) {
-		LOG.info("Load Game [" + id + "]...");
+	public IGamefield loadGamefiledByName(final String name) {
+		LOG.info("Load Game [" + name + "]...");
 		ObjectSet<IGamefield> game = null;
 		try {
 			db = Db4o.openFile(FILENAME);
@@ -91,7 +91,7 @@ public class db4oDao implements IDAO {
 
 				@Override
 				public boolean match(IGamefield game) {
-					return game.getId().equals(id);
+					return game.getName().equals(name);
 				}
 			});
 
@@ -106,10 +106,10 @@ public class db4oDao implements IDAO {
 			} catch (Db4oIOException e) {
 				LOG.error(e.getMessage());
 			}
-			LOG.info("Game [" + id + "] successfully loaded.");
+			LOG.info("Game [" + name + "] successfully loaded.");
 			return res;
 		}
-		LOG.info("Game [" + id + "] not found.");
+		LOG.info("Game [" + name + "] not found.");
 		try {
 			db.close();
 		} catch (Db4oIOException e) {
@@ -121,39 +121,39 @@ public class db4oDao implements IDAO {
 	/**
 	 * Get all Gamefield Id's from db4o Database
 	 * 
-	 * @see de.htwg.sa.nmm.persistence.IDAO#getAllGamefieldIds()
+	 * @see de.htwg.sa.nmm.persistence.IDAO#getAllGamefieldNames()
 	 */
 	@Override
-	public List<String> getAllGamefieldIds() {
+	public List<String> getAllGamefieldNames() {
 		LOG.info("Retrieve all Games..");
 		// Get all stored Games
-		List<String> gameIds = new ArrayList<String>();
+		List<String> gameNames = new ArrayList<String>();
 		try {
 			db = Db4o.openFile(FILENAME);
 			ObjectSet<IGamefield> games = db.query(IGamefield.class);
 			// Extract all GameIds
 			for (IGamefield game : games) {
-				gameIds.add(game.getId());
+				gameNames.add(game.getName());
 			}
 			db.close();
 		} catch (Exception e) {
 			LOG.warn(e.getMessage());
 		}
-		LOG.info(gameIds.size() + " Game(s) found.");
-		return gameIds;
+		LOG.info(gameNames.size() + " Game(s) found.");
+		return gameNames;
 	}
 
 	/**
 	 * Delete Gamefield by Id from db4o Database
 	 * 
-	 * @see de.htwg.sa.nmm.persistence.IDAO#deleteGamefieldById(String)
+	 * @see de.htwg.sa.nmm.persistence.IDAO#deleteGamefieldByName(String)
 	 */
 	@Override
-	public OperationResult deleteGamefieldById(String id) {
-		LOG.info("Delete Game [" + id + "]...");
+	public OperationResult deleteGamefieldByName(String name) {
+		LOG.info("Delete Game [" + name + "]...");
 		try {
 			db = Db4o.openFile(FILENAME);
-			db.delete(loadGamefiledById(id));
+			db.delete(loadGamefiledByName(name));
 			db.close();
 		} catch (DatabaseFileLockedException e) {
 			LOG.warn("Database locked!");
@@ -162,7 +162,7 @@ public class db4oDao implements IDAO {
 			LOG.error(e.getMessage());
 			return new OperationResult(false, "Ups! Da ist was falsch gelaufen.");
 		}
-		LOG.info("Game [" + id + "] successfully deleted.");
+		LOG.info("Game [" + name + "] successfully deleted.");
 		return new OperationResult(true);
 	}
 
