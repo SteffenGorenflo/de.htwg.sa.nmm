@@ -205,16 +205,23 @@ public final class NmmController extends Observable implements INmmController {
 		gamefield.setName(id);
         IDAO dao = daos.get(strategy);
 		OperationResult result = dao.storeGamefield(gamefield);
+		if (result.successful) {
+			status = "successfully saved game " + id;
+		} else {
+			status = "could not save game " + id + ": " + result.message;
+		}
+		notifyObservers();
 		return result.successful;
 	}
 
 	@Override
 	public boolean loadGame(String id, PersistenceStrategy strategy) {
 		IDAO dao = daos.get(strategy);
-		IGamefield newGame = dao.loadGamefiledByName(id);
+		IGamefield newGame = dao.loadGamefieldByName(id);
 		if (newGame == null) {
 			return false;
 		}
+		status = "loaded game: " + id;
 		gamefield = newGame;
 		undoStack.clear();
 		notifyObservers();
@@ -225,5 +232,18 @@ public final class NmmController extends Observable implements INmmController {
 	public List<String> getGameIds(PersistenceStrategy strategy) {
 		IDAO dao = daos.get(strategy);
 		return dao.getAllGamefieldNames();
+	}
+
+	@Override
+	public boolean deleteGame(String id, PersistenceStrategy strategy) {
+		IDAO dao = daos.get(strategy);
+		OperationResult result = dao.deleteGamefieldByName(id);
+		if (result.successful) {
+			status = "deleted game " + id;
+		} else {
+			status = "could not delete game " + id + ": " + result.message;
+		}
+		notifyObservers();
+		return result.successful;
 	}
 }

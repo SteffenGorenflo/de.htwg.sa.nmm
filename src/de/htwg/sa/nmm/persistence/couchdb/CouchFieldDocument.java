@@ -25,8 +25,9 @@ class CouchFieldDocument extends CouchDbDocument {
 
     public IField toField() {
         IField field = new Field(grid, index);
-        field.setToken(token.toToken());
+        if (token != null) {
+            field.setToken(token.toToken());
+        }
         return field;
     }
-
 }

@@ -1,13 +1,6 @@
 package de.htwg.sa.nmm.persistence.couchdb;
 
-import de.htwg.sa.nmm.model.IField;
 import de.htwg.sa.nmm.model.IGamefield;
-import de.htwg.sa.nmm.model.IPlayer;
-import de.htwg.sa.nmm.model.IToken;
-import de.htwg.sa.nmm.model.impl.Field;
-import de.htwg.sa.nmm.model.impl.Gamefield;
-import de.htwg.sa.nmm.model.impl.Player;
-import de.htwg.sa.nmm.model.impl.Token;
 import de.htwg.sa.nmm.persistence.IDAO;
 import de.htwg.sa.nmm.persistence.OperationResult;
 import org.ektorp.CouchDbConnector;
@@ -17,8 +10,7 @@ import org.ektorp.http.HttpClient;
 import org.ektorp.http.StdHttpClient;
 import org.ektorp.impl.StdCouchDbInstance;
 
-import java.net.MalformedURLException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CouchDao implements IDAO {
@@ -27,17 +19,16 @@ public class CouchDao implements IDAO {
 
     @Override
     public boolean init() {
-        HttpClient client = null;
         try {
-            client = new StdHttpClient.Builder().url("http://lenny2.in.htwg-konstanz.de:5984").build();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+            HttpClient client = new StdHttpClient.Builder().url("http://lenny2.in.htwg-konstanz.de:5984").build();
+            CouchDbInstance dbInstance = new StdCouchDbInstance(client);
+            db = dbInstance.createConnector("nmm", true);
+            db.createDatabaseIfNotExists();
+            return true;
+        } catch (Throwable t) {
+            t.printStackTrace();
             return false;
         }
-        CouchDbInstance dbInstance = new StdCouchDbInstance(client);
-        db = dbInstance.createConnector("nmm", true);
-        db.createDatabaseIfNotExists();
-        return true;
     }
 
     @Override
@@ -51,8 +42,8 @@ public class CouchDao implements IDAO {
     }
 
     @Override
-    public IGamefield loadGamefiledByName(String name) {
-        CouchGamefieldDocument gamefield = db.find(CouchGamefieldDocument.class, name);
+    public IGamefield loadGamefieldByName(String name) {
+        CouchGamefieldDocument gamefield = getGamefieldByName(name);
         if (gamefield == null) {
             return null;
         }
@@ -61,29 +52,40 @@ public class CouchDao implements IDAO {
 
     @Override
     public List<String> getAllGamefieldNames() {
-
-        ViewQuery query = new ViewQuery()
-                                .allDocs()
-                                .includeDocs(true);
-
-        List<String> gamefieldNames = new LinkedList<>();
-        for (CouchGamefieldDocument gamefield: db.queryView(query, CouchGamefieldDocument.class)) {
-            gamefieldNames.add(   gamefield.getId());
+        List<CouchGamefieldDocument> gamefields = getAllGamefields();
+        List<String> gamefieldNames = new ArrayList<>(gamefields.size());
+        for (CouchGamefieldDocument gamefield: gamefields) {
+            gamefieldNames.add(gamefield.name);
         }
         return gamefieldNames;
     }
 
     @Override
     public OperationResult deleteGamefieldByName(String name) {
-        if (!containsGamefield(name)) {
+        CouchGamefieldDocument game = getGamefieldByName(name);
+        if (game == null) {
             return new OperationResult(false, "no such game: " + name);
         }
-        db.delete(CouchGamefieldDocument.toDocument(loadGamefiledByName(name)));
+        db.delete(game);
         return new OperationResult(true);
+    }
+
+    private List<CouchGamefieldDocument> getAllGamefields() {
+        ViewQuery query = new ViewQuery().allDocs().includeDocs(true);
+        return db.queryView(query, CouchGamefieldDocument.class);
+    }
+
+    private CouchGamefieldDocument getGamefieldByName(final String name) {
+        List<CouchGamefieldDocument> documents = getAllGamefields();
+        for (CouchGamefieldDocument doc: documents) {
+            if (doc.name.equals(name)) {
+                return doc;
+            }
+        }
+        return null;
     }
 
     private boolean containsGamefield(String name) {
         return getAllGamefieldNames().contains(name);
     }
-
 }

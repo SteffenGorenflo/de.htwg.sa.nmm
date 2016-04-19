@@ -37,7 +37,7 @@ public class HibernateDAO implements IDAO {
 	}
 
 	@Override
-	public IGamefield loadGamefiledByName(String name) {
+	public IGamefield loadGamefieldByName(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}

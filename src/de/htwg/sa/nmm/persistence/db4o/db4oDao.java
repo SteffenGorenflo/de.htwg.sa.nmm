@@ -64,7 +64,7 @@ public class db4oDao implements IDAO {
 
 		LOG.info("Saving Game [" + gamefield.getName() + "]...");
 
-		if (null != loadGamefiledByName(gamefield.getName())) {
+		if (null != loadGamefieldByName(gamefield.getName())) {
 			deleteGamefieldByName(gamefield.getName());
 		}
 		try {
@@ -85,10 +85,10 @@ public class db4oDao implements IDAO {
 	/**
 	 * Load Gamefield by Id from db4o Database
 	 * 
-	 * @see de.htwg.sa.nmm.persistence.IDAO#loadGamefiledByName(String)
+	 * @see de.htwg.sa.nmm.persistence.IDAO#loadGamefieldByName(String)
 	 */
 	@Override
-	public IGamefield loadGamefiledByName(final String name) {
+	public IGamefield loadGamefieldByName(final String name) {
 		LOG.info("Load Game [" + name + "]...");
 		ObjectSet<IGamefield> game = null;
 		try {
@@ -161,7 +161,7 @@ public class db4oDao implements IDAO {
 		LOG.info("Delete Game [" + name + "]...");
 		try {
 			db = Db4o.openFile(FILENAME);
-			db.delete(loadGamefiledByName(name));
+			db.delete(loadGamefieldByName(name));
 			db.close();
 		} catch (DatabaseFileLockedException e) {
 			LOG.warn("Database locked!");

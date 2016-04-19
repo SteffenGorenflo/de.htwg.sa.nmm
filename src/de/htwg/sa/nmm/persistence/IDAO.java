@@ -11,7 +11,7 @@ public interface IDAO {
 
 	OperationResult storeGamefield(IGamefield gamefield);
 	
-	IGamefield loadGamefiledByName(String name);
+	IGamefield loadGamefieldByName(String name);
 	
 	List<String> getAllGamefieldNames();
 	
