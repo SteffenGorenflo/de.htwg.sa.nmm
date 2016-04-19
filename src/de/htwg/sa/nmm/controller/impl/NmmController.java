@@ -22,10 +22,12 @@ import de.htwg.sa.nmm.persistence.PersistenceStrategy;
 import de.htwg.sa.nmm.persistence.couchdb.CouchDao;
 import de.htwg.sa.nmm.persistence.db4o.db4oDao;
 import de.htwg.sa.nmm.persistence.hibernate.util.HibernateDAO;
+import de.htwg.sa.nmm.statistics.MillStatistics;
 import de.htwg.sa.nmm.util.observer.Observable;
 
 public final class NmmController extends Observable implements INmmController {
-	
+
+	private MillStatistics millStatistics = new MillStatistics();
 	private String status = "Nine Men's Morris";
 	private IGamefield gamefield;
 	private Stack<IGameCommand> undoStack = new Stack<>();
@@ -82,7 +84,8 @@ public final class NmmController extends Observable implements INmmController {
 		IField field = gamefield.field(grid, index);
 		IGameCommand action = new SetTokenCommand(gamefield.getCurrentPlayer(), field);
 		if (action.valid()) {
-			action.execute();	
+			action.execute();
+			millStatistics.checkStatistics(gamefield);
 			ok = true;
 			undoStack.add(action);
 			if (gamefield.mill(field)) { 
@@ -106,6 +109,7 @@ public final class NmmController extends Observable implements INmmController {
 		IGameCommand action = new MoveTokenCommand(gamefield.getCurrentPlayer(), source, dest);
 		if (action.valid()) {
 			action.execute();
+			millStatistics.checkStatistics(gamefield);
 			ok = true;
 			undoStack.add(action);
 			if (gamefield.mill(dest)) {				
