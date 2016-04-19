@@ -58,6 +58,11 @@
 			<artifactId>slf4j-simple</artifactId>
 			<version>1.7.21</version>
 		</dependency>
+		<dependency>
+			<groupId>com.typesafe.akka</groupId>
+			<artifactId>akka-actor_2.10</artifactId>
+			<version>2.2.0</version>
+		</dependency>
 
 		<!-- Nicht sicher ob das gebraucht wird -->
 		<!-- <dependency> -->
