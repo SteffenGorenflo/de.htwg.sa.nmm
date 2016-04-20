@@ -98,8 +98,8 @@ public class db4oDao implements IDAO {
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public boolean match(IGamefield game) {
-					return game.getName().equals(name);
+				public boolean match(IGamefield gamefield) {
+					return gamefield.getName().equals(name);
 				}
 			});
 
