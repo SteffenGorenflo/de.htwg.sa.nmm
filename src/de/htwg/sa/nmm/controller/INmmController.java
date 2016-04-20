@@ -43,4 +43,6 @@ public interface INmmController extends IObservable {
 	boolean loadGame(String id, PersistenceStrategy strategy);
 
 	List<String> getGameIds(PersistenceStrategy strategy);
+
+	boolean deleteGame(String id, PersistenceStrategy strategy);
 }

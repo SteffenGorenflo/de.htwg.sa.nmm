@@ -239,11 +239,28 @@ public final class TextUserInterface implements IObserver {
 				String strStrategy = input.replace("show ", "");
 				PersistenceStrategy strategy = PersistenceStrategy.valueOf(strStrategy);
 				List<String> gameIds = controller.getGameIds(strategy);
-				for (String gameId: gameIds) {
+				for (String gameId : gameIds) {
 					println(gameId);
 				}
 			} catch (IllegalArgumentException ex) {
 				println("invalid input, use: load [strategy] gameName; strategy=db4o,couchdb,hibernate");
+			}
+
+		} else if (input.startsWith("delete")) {
+
+			try {
+				String[] strategyAndGameId = input.replace("delete ", "").split(" ");
+				if (strategyAndGameId.length == 2) {
+					String strStrategy = strategyAndGameId[0];
+					PersistenceStrategy strategy = PersistenceStrategy.valueOf(strStrategy);
+					String gameId = strategyAndGameId[1];
+					controller.deleteGame(gameId, strategy);
+				} else {
+					println("invalid input, use: delete [strategy] gameName; strategy=db4o,couchdb,hibernate");
+				}
+
+			} catch (IllegalArgumentException ex) {
+
 			}
 
 		} else {

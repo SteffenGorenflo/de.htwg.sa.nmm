@@ -22,10 +22,12 @@ import de.htwg.sa.nmm.persistence.PersistenceStrategy;
 import de.htwg.sa.nmm.persistence.couchdb.CouchDao;
 import de.htwg.sa.nmm.persistence.db4o.db4oDao;
 import de.htwg.sa.nmm.persistence.hibernate.util.HibernateDAO;
+import de.htwg.sa.nmm.statistics.MillStatistics;
 import de.htwg.sa.nmm.util.observer.Observable;
 
 public final class NmmController extends Observable implements INmmController {
-	
+
+	private MillStatistics millStatistics = new MillStatistics();
 	private String status = "Nine Men's Morris";
 	private IGamefield gamefield;
 	private Stack<IGameCommand> undoStack = new Stack<>();
@@ -82,7 +84,8 @@ public final class NmmController extends Observable implements INmmController {
 		IField field = gamefield.field(grid, index);
 		IGameCommand action = new SetTokenCommand(gamefield.getCurrentPlayer(), field);
 		if (action.valid()) {
-			action.execute();	
+			action.execute();
+			millStatistics.checkStatistics(gamefield);
 			ok = true;
 			undoStack.add(action);
 			if (gamefield.mill(field)) { 
@@ -106,6 +109,7 @@ public final class NmmController extends Observable implements INmmController {
 		IGameCommand action = new MoveTokenCommand(gamefield.getCurrentPlayer(), source, dest);
 		if (action.valid()) {
 			action.execute();
+			millStatistics.checkStatistics(gamefield);
 			ok = true;
 			undoStack.add(action);
 			if (gamefield.mill(dest)) {				
@@ -205,16 +209,23 @@ public final class NmmController extends Observable implements INmmController {
 		gamefield.setName(id);
         IDAO dao = daos.get(strategy);
 		OperationResult result = dao.storeGamefield(gamefield);
+		if (result.successful) {
+			status = "successfully saved game " + id;
+		} else {
+			status = "could not save game " + id + ": " + result.message;
+		}
+		notifyObservers();
 		return result.successful;
 	}
 
 	@Override
 	public boolean loadGame(String id, PersistenceStrategy strategy) {
 		IDAO dao = daos.get(strategy);
-		IGamefield newGame = dao.loadGamefiledByName(id);
+		IGamefield newGame = dao.loadGamefieldByName(id);
 		if (newGame == null) {
 			return false;
 		}
+		status = "loaded game: " + id;
 		gamefield = newGame;
 		undoStack.clear();
 		notifyObservers();
@@ -225,5 +236,18 @@ public final class NmmController extends Observable implements INmmController {
 	public List<String> getGameIds(PersistenceStrategy strategy) {
 		IDAO dao = daos.get(strategy);
 		return dao.getAllGamefieldNames();
+	}
+
+	@Override
+	public boolean deleteGame(String id, PersistenceStrategy strategy) {
+		IDAO dao = daos.get(strategy);
+		OperationResult result = dao.deleteGamefieldByName(id);
+		if (result.successful) {
+			status = "deleted game " + id;
+		} else {
+			status = "could not delete game " + id + ": " + result.message;
+		}
+		notifyObservers();
+		return result.successful;
 	}
 }

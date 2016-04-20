@@ -40,7 +40,7 @@ public class HibernateDAO implements IDAO {
 	}
 
 	@Override
-	public IGamefield loadGamefiledByName(final String name) {
+	public IGamefield loadGamefieldByName(final String name) {
 		Session session = HibernateSessionUtil.getInstance().getCurrentSession();
 		session.beginTransaction();
 
@@ -70,7 +70,7 @@ public class HibernateDAO implements IDAO {
 		Session session = null;
 		Transaction tx = null;
 
-		IGamefield game = loadGamefiledByName(name);
+		IGamefield game = loadGamefieldByName(name);
 		if (game == null)
 			return new OperationResult(false, "No such game!");
 
