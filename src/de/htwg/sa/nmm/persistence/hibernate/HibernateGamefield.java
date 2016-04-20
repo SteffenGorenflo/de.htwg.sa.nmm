@@ -1,13 +1,15 @@
 package de.htwg.sa.nmm.persistence.hibernate;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -24,7 +26,7 @@ import de.htwg.sa.nmm.model.impl.Gamefield;
  * @since 2016-04-05
  */
 @Entity
-@Table(name = "GAME")
+@Table(name = "Hibernate_TEST1")
 public class HibernateGamefield implements Serializable {
 
 	/**
@@ -41,7 +43,7 @@ public class HibernateGamefield implements Serializable {
 	private int id;
 
 	/**
-	 * Name of the Game. Needed to identify the game in db4o database
+	 * Name of the Game.
 	 */
 	@Column(name = "name")
 	String name = "";
@@ -49,22 +51,19 @@ public class HibernateGamefield implements Serializable {
 	/**
 	 * Field matrix to address the specific positions
 	 */
-	@OneToOne
-	@JoinColumn(name = "field")
-	HibernateField[][] gamefield = null;
+	@OneToMany(mappedBy = "game")
+	List<HibernateMatrixRow> rows = new ArrayList<>();
 
 	/**
 	 * Variable to store player1
 	 */
-	@OneToOne
-	@JoinColumn(name = "player_one")
+	@OneToOne(mappedBy = "game")
 	HibernatePlayer player1;
 
 	/**
 	 * Variable to store player2
 	 */
-	@OneToOne
-	@JoinColumn(name = "player_two")
+	@OneToOne(mappedBy = "game")
 	HibernatePlayer player2;
 
 	/**
@@ -72,6 +71,10 @@ public class HibernateGamefield implements Serializable {
 	 */
 	public HibernateGamefield() {
 
+	}
+
+	public String getName() {
+		return this.name;
 	}
 
 	public static HibernateGamefield transformToHibernate(IGamefield gamefield) {
@@ -82,13 +85,14 @@ public class HibernateGamefield implements Serializable {
 		game.player2 = HibernatePlayer.transformToHibernate(gamefield.getOtherPlayer());
 
 		IField[][] field = gamefield.getGamefield();
-		HibernateField[][] hiber = new HibernateField[gamefield.grids()][gamefield.index()];
+		HibernateMatrixRow mr;
 		for (int g = 0; g < gamefield.grids(); g++) {
+			mr = new HibernateMatrixRow();
 			for (int i = 0; i < gamefield.index(); i++) {
-				hiber[g][i] = HibernateField.transformToHibernate(field[g][i]);
+				mr.row.add(HibernateField.transformToHibernate(field[g][i]));
 			}
+			game.rows.add(mr);
 		}
-		game.gamefield = hiber;
 
 		return game;
 	}
@@ -98,18 +102,17 @@ public class HibernateGamefield implements Serializable {
 		IPlayer p2 = HibernatePlayer.transformFromHibernate(gamefield.player2);
 
 		IGamefield game = new Gamefield(p1, p2);
-		
+
 		game.setName(gamefield.name);
-		
-		HibernateField[][] hiber = gamefield.gamefield;
+
 		IField[][] field = new Field[game.grids()][game.index()];
 		for (int g = 0; g < game.grids(); g++) {
 			for (int i = 0; i < game.index(); i++) {
-				field[g][i] = HibernateField.transformFromHibernate(hiber[g][i]);
+				field[g][i] = HibernateField.transformFromHibernate(gamefield.rows.get(g).row.get(i));
 			}
 		}
 		game.setGamefield(field);
-		
+
 		return game;
 	}
 
