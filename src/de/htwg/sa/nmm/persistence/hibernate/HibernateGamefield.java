@@ -46,36 +46,25 @@ public class HibernateGamefield implements Serializable {
 	 * Name of the Game.
 	 */
 	@Column(name = "name")
-	String name = "";
+	private String name = "";
 
 	/**
 	 * Field matrix to address the specific positions
 	 */
 	@OneToMany(mappedBy = "game")
-	List<HibernateMatrixRow> rows = new ArrayList<>();
+	private List<HibernateMatrixRow> rows = new ArrayList<>();
 
 	/**
 	 * Variable to store player1
 	 */
 	@OneToOne(mappedBy = "game")
-	HibernatePlayer player1;
+	private HibernatePlayer player1;
 
 	/**
 	 * Variable to store player2
 	 */
 	@OneToOne(mappedBy = "game")
-	HibernatePlayer player2;
-
-	/**
-	 * Default Constructor for Hibernate
-	 */
-	public HibernateGamefield() {
-
-	}
-
-	public String getName() {
-		return this.name;
-	}
+	private HibernatePlayer player2;
 
 	public static HibernateGamefield transformToHibernate(IGamefield gamefield) {
 		HibernateGamefield game = new HibernateGamefield();
@@ -115,5 +104,43 @@ public class HibernateGamefield implements Serializable {
 
 		return game;
 	}
+	
+	// ##### Getter/setter Methods ####
 
+	public HibernateGamefield() {
+
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<HibernateMatrixRow> getRows() {
+		return rows;
+	}
+
+	public void setRows(List<HibernateMatrixRow> rows) {
+		this.rows = rows;
+	}
+
+	public HibernatePlayer getPlayer1() {
+		return player1;
+	}
+
+	public void setPlayer1(HibernatePlayer player1) {
+		this.player1 = player1;
+	}
+
+	public HibernatePlayer getPlayer2() {
+		return player2;
+	}
+
+	public void setPlayer2(HibernatePlayer player2) {
+		this.player2 = player2;
+	}
+	
 }

@@ -22,7 +22,7 @@ import de.htwg.sa.nmm.model.impl.Player;
  * @since 2016-04-05
  */
 @Entity
-@Table(name = "PLAYER")
+@Table(name = "Hibernate_TEST5")
 public class HibernatePlayer implements Serializable {
 
 	/**
@@ -37,7 +37,7 @@ public class HibernatePlayer implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private int id;
-	
+
 	/**
 	 * Name of the player
 	 */
@@ -61,27 +61,73 @@ public class HibernatePlayer implements Serializable {
 	 */
 	@Column(name = "token")
 	int token;
-	
+
 	@OneToOne
 	HibernateGamefield game;
-	
+
 	static HibernatePlayer transformToHibernate(IPlayer player) {
 		HibernatePlayer p = new HibernatePlayer();
-		
+
 		p.name = player.name();
 		p.color = player.color();
 		p.status = player.getStatus();
 		p.token = player.token();
-		
+
 		return p;
 	}
-	
+
 	static IPlayer transformFromHibernate(HibernatePlayer player) {
 		Player p = new Player(player.name, player.color);
-		
+
 		p.setStatus(player.status);
 		p.setToken(player.token);
-		
+
 		return p;
 	}
+
+	// ##### Getter/setter Methods ####
+
+	public HibernatePlayer() {
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public IToken.Color getColor() {
+		return color;
+	}
+
+	public void setColor(IToken.Color color) {
+		this.color = color;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public int getToken() {
+		return token;
+	}
+
+	public void setToken(int token) {
+		this.token = token;
+	}
+
+	public HibernateGamefield getGame() {
+		return game;
+	}
+
+	public void setGame(HibernateGamefield game) {
+		this.game = game;
+	}
+
 }

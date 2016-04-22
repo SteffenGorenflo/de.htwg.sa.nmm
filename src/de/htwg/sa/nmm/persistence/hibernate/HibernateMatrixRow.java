@@ -13,13 +13,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Utillityclass to store a Matrix in the Database
+ * 
+ * @author Patrick Schmidt
+ * @since 2016-04-20
+ */
 @Entity
 @Table(name = "Hibernate_TEST2")
-public class HibernateMatrixRow implements Serializable{
+public class HibernateMatrixRow implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -32,5 +35,26 @@ public class HibernateMatrixRow implements Serializable{
 
 	@OneToMany(mappedBy = "matrixRow")
 	List<HibernateField> row = new ArrayList<HibernateField>();
+
+	// ##### Getter/setter Methods ####
+
+	public HibernateMatrixRow() {
+	}
+
+	public HibernateGamefield getGame() {
+		return game;
+	}
+
+	public void setGame(HibernateGamefield game) {
+		this.game = game;
+	}
+
+	public List<HibernateField> getRow() {
+		return row;
+	}
+
+	public void setRow(List<HibernateField> row) {
+		this.row = row;
+	}
 
 }

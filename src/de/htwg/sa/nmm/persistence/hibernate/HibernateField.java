@@ -36,47 +36,88 @@ public class HibernateField implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private int id;
-	
+
 	/**
 	 * Number of Grid
 	 */
 	@Column(name = "grid")
-	int grid;
+	private int grid;
 
 	/**
 	 * Index of Grid
 	 */
 	@Column(name = "index")
-	int index;
-	
+	private int index;
+
 	/**
-	 * MatrixRow 
+	 * MatrixRow
 	 */
 	@ManyToOne
-	HibernateMatrixRow matrixRow;
+	private HibernateMatrixRow matrixRow;
 
 	/**
 	 * placed token
 	 */
 	@OneToOne(mappedBy = "field")
-	HibernateToken token;
-	
+	private HibernateToken token;
+
 
 	static HibernateField transformToHibernate(IField field) {
 		HibernateField f = new HibernateField();
-		
+
 		f.grid = field.grid();
 		f.index = field.index();
 		f.token = HibernateToken.transformToHibernate(field.getToken());
-		
+
 		return f;
 	}
-	
+
 	static IField transformFromHibernate(HibernateField field) {
 		Field f = new Field(field.grid, field.index);
-		
+
 		f.setToken(HibernateToken.transformFromHibernate(field.token));
-		
+
 		return f;
 	}
+
+	// ##### Getter/setter Methods ####
+	
+
+	public HibernateField() {
+
+	}
+
+	public int getGrid() {
+		return grid;
+	}
+
+	public void setGrid(int grid) {
+		this.grid = grid;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	public HibernateMatrixRow getMatrixRow() {
+		return matrixRow;
+	}
+
+	public void setMatrixRow(HibernateMatrixRow matrixRow) {
+		this.matrixRow = matrixRow;
+	}
+
+	public HibernateToken getToken() {
+		return token;
+	}
+
+	public void setToken(HibernateToken token) {
+		this.token = token;
+	}
+	
+	
 }
